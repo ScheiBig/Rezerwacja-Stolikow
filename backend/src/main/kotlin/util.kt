@@ -1,0 +1,1 @@
+fun resource(path: String) = "src\\main\\resources\\$path"
