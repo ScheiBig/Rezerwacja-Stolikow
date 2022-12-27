@@ -1,2 +1,37 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto eol=lf
+
+# Explicitly declare text files you want to always be normalized and converted
+# to native line endings on checkout.
+#   Common
+*.json text
+*.md text
+*.gitignore text
+*.gitattributes text
+*.txt text
+#   Frontend
+*.html text
+*.js text
+*.ts text
+*.jsx text
+*.tsx text
+*.css text
+# IDE
+*.editorconfig text
+#   Backend
+*.kt text
+*.conf text
+# IDE
+*.xml text
+*.gradle text
+*.properties text
+gradlew text
+gradlew.bat text
+
+# Ensure those won't be messed up with
+*.ico binary
+*.png binary
+*.db binary
+
+# Declare files that will always have LF line endings on checkout.
+*.sln text eol=lf

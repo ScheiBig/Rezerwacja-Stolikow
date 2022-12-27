@@ -1,0 +1,223 @@
+###############
+#             #
+#   backend   #
+#             #
+###############
+
+# Created by https://www.toptal.com/developers/gitignore/api/intellij,gradle,kotlin
+# Edit at https://www.toptal.com/developers/gitignore?templates=intellij,gradle,kotlin
+
+### Intellij ###
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
+# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+
+# User-specific stuff
+backend/.idea/**/workspace.xml
+backend/.idea/**/tasks.xml
+backend/.idea/**/usage.statistics.xml
+backend/.idea/**/dictionaries
+backend/.idea/**/shelf
+
+# AWS User-specific
+backend/.idea/**/aws.xml
+
+# Generated files
+backend/.idea/**/contentModel.xml
+
+# Sensitive or high-churn files
+backend/.idea/**/dataSources/
+backend/.idea/**/dataSources.ids
+backend/.idea/**/dataSources.local.xml
+backend/.idea/**/sqlDataSources.xml
+backend/.idea/**/dynamic.xml
+backend/.idea/**/uiDesigner.xml
+backend/.idea/**/dbnavigator.xml
+
+# Gradle
+backend/.idea/**/gradle.xml
+backend/.idea/**/libraries
+
+# Gradle and Maven with auto-import
+# When using Gradle or Maven with auto-import, you should exclude module files,
+# since they will be recreated, and may cause churn.  Uncomment if using
+# auto-import.
+backend/.idea/artifacts
+backend/.idea/compiler.xml
+backend/.idea/jarRepositories.xml
+backend/.idea/modules.xml
+backend/.idea/*.iml
+backend/.idea/modules
+backend/**/*.iml
+backend/**/*.ipr
+
+# CMake
+backend/cmake-build-*/
+
+# Mongo Explorer plugin
+backend/.idea/**/mongoSettings.xml
+
+# File-based project format
+backend/**/*.iws
+
+# IntelliJ
+backend/out/
+
+# mpeltonen/sbt-idea plugin
+backend/.idea_modules/
+
+# JIRA plugin
+backend/**/atlassian-ide-plugin.xml
+
+# Cursive Clojure plugin
+backend/.idea/replstate.xml
+
+# SonarLint plugin
+backend/.idea/sonarlint/
+
+# Crashlytics plugin (for Android Studio and IntelliJ)
+backend/**/com_crashlytics_export_strings.xml
+backend/**/crashlytics.properties
+backend/**/crashlytics-build.properties
+backend/**/fabric.properties
+
+# Editor-based Rest Client
+backend/.idea/httpRequests
+
+# Android studio 3.1+ serialized cache file
+backend/.idea/caches/build_file_checksums.ser
+
+### Intellij Patch ###
+# Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
+
+# *.iml
+# modules.xml
+# .idea/misc.xml
+# *.ipr
+
+# Sonarlint plugin
+# https://plugins.jetbrains.com/plugin/7973-sonarlint
+backend/.idea/**/sonarlint/
+
+# SonarQube Plugin
+# https://plugins.jetbrains.com/plugin/7238-sonarqube-community-plugin
+backend/.idea/**/sonarIssues.xml
+
+# Markdown Navigator plugin
+# https://plugins.jetbrains.com/plugin/7896-markdown-navigator-enhanced
+backend/.idea/**/markdown-navigator.xml
+backend/.idea/**/markdown-navigator-enh.xml
+backend/.idea/**/markdown-navigator/
+
+# Cache file creation bug
+# See https://youtrack.jetbrains.com/issue/JBR-2257
+backend/.idea/$CACHE_FILE$
+
+# CodeStream plugin
+# https://plugins.jetbrains.com/plugin/12206-codestream
+backend/.idea/codestream.xml
+
+# Azure Toolkit for IntelliJ plugin
+# https://plugins.jetbrains.com/plugin/8053-azure-toolkit-for-intellij
+.backend/idea/**/azureSettings.xml
+
+### Kotlin ###
+# Compiled class file
+backend/**/*.class
+
+# Log file
+backend/**/*.log
+
+# BlueJ files
+backend/**/*.ctxt
+
+# Mobile Tools for Java (J2ME)
+backend/**/.mtj.tmp/
+
+# Package Files #
+backend/**/*.jar
+backend/**/*.war
+backend/**/*.nar
+backend/**/*.ear
+backend/**/*.zip
+backend/**/*.tar.gz
+backend/**/*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+backend/**/hs_err_pid*
+backend/**/replay_pid*
+
+### Gradle ###
+backend/.gradle
+backend/**/build/
+!backend/src/**/build/
+
+# Ignore Gradle GUI config
+backend/**/gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!backend/**/gradle-wrapper.jar
+
+# Avoid ignore Gradle wrappper properties
+!backend/**/gradle-wrapper.properties
+
+# Cache of project
+backend/**/.gradletasknamecache
+
+# # Eclipse Gradle plugin generated files
+# # Eclipse Core
+# .project
+# # JDT-specific (Eclipse Java Development Tools)
+# .classpath
+
+### Gradle Patch ###
+# Java heap dump
+backend/**/*.hprof
+
+# End of https://www.toptal.com/developers/gitignore/api/intellij,gradle,kotlin
+
+
+################
+#              #
+#   frontend   #
+#              #
+################
+
+# Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,react
+# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,react
+
+### react ###
+frontend/**/.DS_*
+frontend/**/*.log
+frontend/**/logs
+frontend/**/*.backup.*
+frontend/**/*.back.*
+
+frontend/node_modules
+frontend/bower_components
+
+frontend/**/*.sublime*
+
+frontend/**/psd
+frontend/**/thumb
+frontend/**/sketch
+
+### VisualStudioCode ###
+frontend/.vscode/*
+!frontend/.vscode/settings.json
+!frontend/.vscode/tasks.json
+!frontend/.vscode/launch.json
+!frontend/.vscode/extensions.json
+!frontend/.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+frontend/.history/
+
+# Built Visual Studio Code Extensions
+frontend/**/*.vsix
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+frontend/**/.history
+frontend/**/.ionide
+
+# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,react
