@@ -1,10 +1,13 @@
 # Rezerwacja Stolików - Backend
 
 ### Project created using:
-- ![favicon](https://www.google.com/s2/favicons?domain=https://gradle.org/) Gradle ([🗃️ docs](https://docs.gradle.org/current/userguide/userguide.html))
-- ![favicon](https://www.google.com/s2/favicons?domain=https://kotlinlang.org/) Kotlin ([🗃️ docs](https://kotlinlang.org/docs/home.html))
-- ![favicon](https://www.google.com/s2/favicons?domain=https://ktor.io/) Ktor ([🗃️ docs](https://ktor.io/docs/welcome.html))
-- ![favicon](https://www.google.com/s2/favicons?domain=https://www.jetbrains.com/lp/mono/) Exposed ([🗃️ docs](https://github.com/JetBrains/Exposed/wiki))
+- ![favicon](https://www.google.com/s2/favicons?domain=gradle.org)
+  Gradle ([🗃️ docs](https://docs.gradle.org/current/userguide/userguide.html))
+- ![favicon](https://www.google.com/s2/favicons?domain=play.kotlinlang.org)
+  Kotlin ([🗃️ docs](https://kotlinlang.org/docs/home.html))
+- ![favicon](https://www.google.com/s2/favicons?domain=ktor.io) Ktor ([🗃️ docs](https://ktor.io/docs/welcome.html))
+- ![favicon](https://www.google.com/s2/favicons?domain=www.jetbrains.com/lp/mono/)
+  Exposed ([🗃️ docs](https://github.com/JetBrains/Exposed/wiki))
 
 ## Available Tasks
 

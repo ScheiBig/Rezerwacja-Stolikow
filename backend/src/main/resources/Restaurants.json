@@ -1,0 +1,101 @@
+[
+    {
+        "name": "ABC",
+        "openingHours": {
+            "monday": {
+                "from": 1200,
+                "to": 2200
+            },
+            "tuesday": {
+                "from": 1200,
+                "to": 2200
+            },
+            "wednesday": {
+                "from": 1200,
+                "to": 2200
+            },
+            "thursday": {
+                "from": 1200,
+                "to": 2200
+            },
+            "friday": {
+                "from": 1200,
+                "to": 2200
+            },
+            "saturday": {
+                "from": 1200,
+                "to": 2200
+            },
+            "sunday": {
+                "from": 1200,
+                "to": 2200
+            }
+        }
+    },
+    {
+        "name": "LMNO",
+        "openingHours": {
+            "monday": {
+                "from": 800,
+                "to": 2000
+            },
+            "tuesday": {
+                "from": 800,
+                "to": 2000
+            },
+            "wednesday": {
+                "from": 800,
+                "to": 2000
+            },
+            "thursday": {
+                "from": 800,
+                "to": 2000
+            },
+            "friday": {
+                "from": 800,
+                "to": 2000
+            },
+            "saturday": {
+                "from": 1000,
+                "to": 0
+            },
+            "sunday": {
+                "from": 1000,
+                "to": 0
+            }
+        }
+    },
+    {
+        "name": "XYZ",
+        "openingHours": {
+            "monday": {
+                "from": 700,
+                "to": 2100
+            },
+            "tuesday": {
+                "from": 700,
+                "to": 2100
+            },
+            "wednesday": {
+                "from": 700,
+                "to": 2100
+            },
+            "thursday": {
+                "from": 700,
+                "to": 2100
+            },
+            "friday": {
+                "from": 1200,
+                "to": 100
+            },
+            "saturday": {
+                "from": 1200,
+                "to": 100
+            },
+            "sunday": {
+                "from": 1200,
+                "to": 100
+            }
+        }
+    }
+]

@@ -1,12 +1,12 @@
 # Rezerwacja Stolików - Frontend
 
 ### Project created using:
-- ![favicon](https://www.google.com/s2/favicons?domain=https://www.npmjs.com/) npm ([🗃️ docs](https://docs.npmjs.com/))
-- ![favicon](https://www.google.com/s2/favicons?domain=https://www.typescriptlang.org/) Typescript ([🗃️ docs](https://www.typescriptlang.org/docs/))
-- ![favicon](https://www.google.com/s2/favicons?domain=reactjs.org) React ([🗃️ docs](https://reactjs.org/docs/getting-started.html))
+- ![favicon](https://www.google.com/s2/favicons?domain=www.npmjs.com) npm ([🗃️ docs](https://docs.npmjs.com/))
+- ![favicon](https://www.google.com/s2/favicons?domain=www.typescriptlang.org) Typescript ([🗃️ docs](https://www.typescriptlang.org/docs/))
+- ![favicon](https://www.google.com/s2/favicons?domain=beta.reactjs.org) React ([🗃️ docs](https://beta.reactjs.org/))
 - ![favicon](https://www.google.com/s2/favicons?domain=reactrouter.com/en/main) React Router ([🗃️ docs](https://reactrouter.com/en/main/start/overview))
 - ![favicon](https://www.google.com/s2/favicons?domain=react-query-v3.tanstack.com) React Query ([🗃️ docs](https://react-query-v3.tanstack.com/overview))
-[label](https://www.google.com/s2/favicons?domain%3Dreactrouter.com%2Fen%2Fmain)
+- ![favicon](https://www.google.com/s2/favicons?domain=tailwindcss.com) Tailwind CSS ([🗃️ docs](https://tailwindcss.com/docs/installation))
 
 ## Available Scripts
 

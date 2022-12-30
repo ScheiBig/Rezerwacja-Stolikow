@@ -1,0 +1,74 @@
+[
+    {
+        "restaurant": 1,
+        "number": 1,
+        "smokingAllowed": false,
+        "byWindow": false
+    },
+    {
+        "restaurant": 1,
+        "number": 2,
+        "smokingAllowed": false,
+        "byWindow": true
+    },
+    {
+        "restaurant": 1,
+        "number": 3,
+        "smokingAllowed": true,
+        "byWindow": false
+    },
+    {
+        "restaurant": 1,
+        "number": 4,
+        "smokingAllowed": true,
+        "byWindow": true
+    },
+    {
+        "restaurant": 2,
+        "number": 1,
+        "smokingAllowed": false,
+        "byWindow": false
+    },
+    {
+        "restaurant": 2,
+        "number": 2,
+        "smokingAllowed": false,
+        "byWindow": true
+    },
+    {
+        "restaurant": 2,
+        "number": 3,
+        "smokingAllowed": true,
+        "byWindow": false
+    },
+    {
+        "restaurant": 2,
+        "number": 4,
+        "smokingAllowed": true,
+        "byWindow": true
+    },
+    {
+        "restaurant": 3,
+        "number": 1,
+        "smokingAllowed": false,
+        "byWindow": false
+    },
+    {
+        "restaurant": 3,
+        "number": 2,
+        "smokingAllowed": false,
+        "byWindow": true
+    },
+    {
+        "restaurant": 3,
+        "number": 3,
+        "smokingAllowed": true,
+        "byWindow": false
+    },
+    {
+        "restaurant": 3,
+        "number": 4,
+        "smokingAllowed": true,
+        "byWindow": true
+    }
+]
