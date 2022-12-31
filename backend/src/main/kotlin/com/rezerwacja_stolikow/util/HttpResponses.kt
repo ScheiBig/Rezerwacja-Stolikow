@@ -1,10 +1,12 @@
 @file:Suppress("unused")
 
-package com.rezerwacja_stolikow.errors
+package com.rezerwacja_stolikow.util
 
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.plugins.*
 import io.ktor.server.response.*
+import io.ktor.server.util.*
 import io.ktor.util.pipeline.*
 import io.ktor.util.reflect.*
 

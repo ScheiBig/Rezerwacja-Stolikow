@@ -2,12 +2,12 @@ package com.rezerwacja_stolikow.plugins
 
 import com.rezerwacja_stolikow.persistence.DiningTable
 import com.rezerwacja_stolikow.persistence.Restaurant
+import com.rezerwacja_stolikow.util.resource
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
-import resource
 import java.io.File
 
 object DatabaseFactory {
@@ -24,11 +24,11 @@ object DatabaseFactory {
                 Restaurant.Table,
                 DiningTable.Table
             )
-        
+    
             val restaurantsFile = File(resource("Restaurants.json"))
             Json.decodeFromStream<List<Restaurant.View>>(restaurantsFile.inputStream())
                 .forEach(Restaurant.Entity::fromView)
-        
+    
             val diningTablesFile = File(resource("DiningTables.json"))
             Json.decodeFromStream<List<DiningTable.View>>(diningTablesFile.inputStream())
                 .forEach(DiningTable.Entity::fromView)

@@ -30,7 +30,8 @@
                 "from": 1200,
                 "to": 2200
             }
-        }
+        },
+        "image": "image/q5KSzJUGPh1Dtq5f7auY6czAf6LCENiD6cvrF4WI4Zf8nhAY"
     },
     {
         "name": "LMNO",
@@ -63,7 +64,8 @@
                 "from": 1000,
                 "to": 0
             }
-        }
+        },
+        "image": "image/64kidrhn4UAkC2WuqMcpAsK0uv7tGwSeWcm8Sa4IyXSqQh70"
     },
     {
         "name": "XYZ",
@@ -96,6 +98,7 @@
                 "from": 1200,
                 "to": 100
             }
-        }
+        },
+        "image": "image/5wksp3UG0hvMIjvfq9cXwC3AH7jcQ9t8XcnATL1I5EtrqhqY"
     }
 ]

@@ -12,6 +12,11 @@ import io.ktor.server.response.*
 
 fun Application.configureRouting() {
     install(StatusPages) {
+        /// 400 Bad request
+        exception<BadRequestException> { call, cause ->
+            cause.badRequest respondTo call
+        }
+    
         /// 401 Unauthorized
         exception<AuthenticationException> { call, cause ->
             cause.unautorised respondTo call
