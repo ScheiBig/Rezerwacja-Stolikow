@@ -73,7 +73,7 @@ object Restaurant {
         val tables by DiningTable.Entity referrersOn DiningTable.Table.restaurant
     
         fun toView() = View(
-            this.name, Timetable.View(
+            this.id.value, this.name, Timetable.View(
                 this.mondayOpen upTo this.mondayClose,
                 this.tuesdayOpen upTo this.tuesdayClose,
                 this.wednesdayOpen upTo this.wednesdayClose,
@@ -87,6 +87,6 @@ object Restaurant {
     
     @Serializable
     data class View(
-        val name: String, val openingHours: Timetable.View, val image: String
+        val number: Long? = null, val name: String, val openingHours: Timetable.View, val image: String
     )
 }

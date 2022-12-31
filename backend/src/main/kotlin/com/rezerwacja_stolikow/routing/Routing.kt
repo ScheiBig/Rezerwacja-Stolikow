@@ -1,13 +1,13 @@
 package com.rezerwacja_stolikow.routing
 
 import com.rezerwacja_stolikow.errors.*
-import com.rezerwacja_stolikow.persistence.restaurantRoutes
-import io.ktor.server.routing.*
-import io.ktor.http.*
-import io.ktor.server.plugins.statuspages.*
+import com.rezerwacja_stolikow.util.*
+import imageRoutes
 import io.ktor.server.application.*
 import io.ktor.server.plugins.*
+import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
+import io.ktor.server.routing.*
 
 
 fun Application.configureRouting() {
@@ -16,7 +16,6 @@ fun Application.configureRouting() {
         exception<BadRequestException> { call, cause ->
             cause.badRequest respondTo call
         }
-    
         /// 401 Unauthorized
         exception<AuthenticationException> { call, cause ->
             cause.unautorised respondTo call
@@ -54,5 +53,9 @@ fun Application.configureRouting() {
         get("/") {
             call.respondText("Hello World!")
         }
+        diningTableRoutes()
+        restaurantRoutes()
+        imageRoutes()
+        hashingRoutes()
     }
 }
