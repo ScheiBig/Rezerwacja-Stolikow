@@ -25,7 +25,7 @@ object Restaurant {
         val saturdayClose = integer("saturday_close")
         val sundayOpen = integer("sunday_open")
         val sundayClose = integer("sunday_close")
-    
+        
         val image = varchar("image", 256)
     }
     
@@ -67,11 +67,11 @@ object Restaurant {
         var saturdayClose by Table.saturdayClose
         var sundayOpen by Table.sundayOpen
         var sundayClose by Table.sundayClose
-    
+        
         var image by Table.image
-    
-        val tables by DiningTable.Entity referrersOn DiningTable.Table.restaurant
-    
+        // unused
+        // val tables by DiningTable.Entity referrersOn DiningTable.Table.restaurant
+        
         fun toView() = View(
             this.id.value, this.name, Timetable.View(
                 this.mondayOpen upTo this.mondayClose,
@@ -87,6 +87,6 @@ object Restaurant {
     
     @Serializable
     data class View(
-        val number: Long? = null, val name: String, val openingHours: Timetable.View, val image: String
+        val ID: Long? = null, val name: String, val openingHours: Timetable.View, val image: String
     )
 }

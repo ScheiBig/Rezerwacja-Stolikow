@@ -18,7 +18,7 @@ object DiningTable {
     class Entity(id: EntityID<Long>): LongEntity(id) {
         companion object: LongEntityClass<Entity>(Table) {
             fun fromView(obj: View) = new {
-                restaurant = Restaurant.Entity.findById(obj.restaurant)!!
+                restaurant = Restaurant.Entity.findById(obj.restaurantID)!!
                 number = obj.number
                 smokingAllowed = obj.smokingAllowed
                 byWindow = obj.byWindow
@@ -35,6 +35,6 @@ object DiningTable {
     
     @Serializable
     data class View(
-        val restaurant: Long, val number: Int, val smokingAllowed: Boolean, val byWindow: Boolean
+        val restaurantID: Long, val number: Int, val smokingAllowed: Boolean, val byWindow: Boolean
     )
 }

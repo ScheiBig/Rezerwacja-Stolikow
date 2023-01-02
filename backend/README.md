@@ -50,7 +50,7 @@ Launches the unit tests.
   ```ts
   [
     {
-      number: Integer,
+      ID: Integer,
       name: String,
       openingHours: {
           day("monday" - "sunday"): {
@@ -62,19 +62,16 @@ Launches the unit tests.
   ]
   ```
   where `NumberEncodedTime` for 21:37 will be `2137`.
-  `number` property is guaranteed to be unique and thus can be used as `key`.
+  <!-- `number` property is guaranteed to be unique and thus can be used as `key`. -->
 
 ### [`⚓/dining_tables/search`](http://localhost:42069/dining_tables/search)
 
 ###### Finds list of dining tables matching criteria
 
 #### Query parameters:
-
-| Parameter | Type | Description |
-| --- | --- | --- |
-| restaurantId | Integer | `number` property of restaurant |
-| smokingAllowed | Boolean ? | if table is in smoking-allowed zone - if not specified filtering is skipped |
-| byWindow | Boolean ? | if table should be directly by window - if not specified filtering is skipped |
+- `restaurantId: Integer` - `number` property of restaurant
+- `smokingAllowed: Boolean?` - if table is in smoking-allowed zone - if not specified filtering is skipped
+- `byWindow: Boolean?` - if table should be directly by window - if not specified filtering is skipped
 
 #### Responses:
 
@@ -82,14 +79,15 @@ Launches the unit tests.
   ```ts
   [
     {
-      restaurant: Integer,
+      restaurantID: Integer,
       number: Integer,
       smokingAllowed: Boolean,
       byWindow: Boolean
     }, …
   ]
   ```
-  empty array migth be returned if none are found.
+  empty array migth be returned if none are found.\
+  Combination of `restaurantID` and `number` properties is guaranteed to be unique for each object and thus can be used as `key`.
 - `400 Bad request`: `restaurantId` is missing
 - `404 Not found`: `restaurantId` does not represent available restaurant
 - `422 Unprocessable entity` - any of parameters is wrong type
