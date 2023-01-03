@@ -27,27 +27,29 @@ object Restaurant {
         val sundayClose = integer("sunday_close")
         
         val image = varchar("image", 256)
+        val map = varchar("map", 256)
     }
     
     class Entity(id: EntityID<Long>): LongEntity(id) {
         companion object: LongEntityClass<Entity>(Table) {
             fun fromView(obj: View) = new {
-                name = obj.name
-                mondayOpen = obj.openingHours.monday.from
-                mondayClose = obj.openingHours.monday.to
-                tuesdayOpen = obj.openingHours.tuesday.from
-                tuesdayClose = obj.openingHours.tuesday.to
-                wednesdayOpen = obj.openingHours.wednesday.from
-                wednesdayClose = obj.openingHours.wednesday.to
-                thursdayOpen = obj.openingHours.thursday.from
-                thursdayClose = obj.openingHours.thursday.to
-                fridayOpen = obj.openingHours.friday.from
-                fridayClose = obj.openingHours.friday.to
-                saturdayOpen = obj.openingHours.saturday.from
-                saturdayClose = obj.openingHours.saturday.to
-                sundayOpen = obj.openingHours.sunday.from
-                sundayClose = obj.openingHours.sunday.to
-                image = obj.image
+                this.name = obj.name
+                this.mondayOpen = obj.openingHours.monday.from
+                this.mondayClose = obj.openingHours.monday.to
+                this.tuesdayOpen = obj.openingHours.tuesday.from
+                this.tuesdayClose = obj.openingHours.tuesday.to
+                this.wednesdayOpen = obj.openingHours.wednesday.from
+                this.wednesdayClose = obj.openingHours.wednesday.to
+                this.thursdayOpen = obj.openingHours.thursday.from
+                this.thursdayClose = obj.openingHours.thursday.to
+                this.fridayOpen = obj.openingHours.friday.from
+                this.fridayClose = obj.openingHours.friday.to
+                this.saturdayOpen = obj.openingHours.saturday.from
+                this.saturdayClose = obj.openingHours.saturday.to
+                this.sundayOpen = obj.openingHours.sunday.from
+                this.sundayClose = obj.openingHours.sunday.to
+                this.image = obj.image
+                this.map = obj.map
             }
         }
         
@@ -69,24 +71,29 @@ object Restaurant {
         var sundayClose by Table.sundayClose
         
         var image by Table.image
+        var map by Table.map
         // unused
         // val tables by DiningTable.Entity referrersOn DiningTable.Table.restaurant
         
         fun toView() = View(
-            this.id.value, this.name, Timetable.View(
+            this.id.value,
+            this.name,
+            Timetable.View(
                 this.mondayOpen upTo this.mondayClose,
                 this.tuesdayOpen upTo this.tuesdayClose,
                 this.wednesdayOpen upTo this.wednesdayClose,
-                thursdayOpen upTo thursdayClose,
-                fridayOpen upTo fridayClose,
-                saturdayOpen upTo saturdayClose,
-                sundayOpen upTo sundayClose
-            ), this.image
+                this.thursdayOpen upTo this.thursdayClose,
+                this.fridayOpen upTo this.fridayClose,
+                this.saturdayOpen upTo this.saturdayClose,
+                this.sundayOpen upTo this.sundayClose
+            ),
+            this.image,
+            this.map
         )
     }
     
     @Serializable
     data class View(
-        val ID: Long? = null, val name: String, val openingHours: Timetable.View, val image: String
+        val ID: Long? = null, val name: String, val openingHours: Timetable.View, val image: String, val map: String
     )
 }

@@ -16,17 +16,12 @@ object DatabaseFactory {
     fun init(driverClass: String, databaseURL: String, username: String = "", password: String = "") {
         database = Database.connect(databaseURL, driverClass, username, password)
         transaction(database) {
-            SchemaUtils.drop(
-                Restaurant.Table,
-                DiningTable.Table
-            )
-            SchemaUtils.create(
-                Restaurant.Table,
-                DiningTable.Table
-            )
-    
-            val restaurantsFile = File(resource("Restaurants.json"))
-            Json.decodeFromStream<List<Restaurant.View>>(restaurantsFile.inputStream())
+            SchemaUtils.drop(Restaurant.Table, DiningTable.Table)
+            SchemaUtils.create(Restaurant.Table, DiningTable.Table)
+            
+            val restaurantsFile = File(resource("data/Restaurants.json"))
+            Json
+                .decodeFromStream<List<Restaurant.View>>(restaurantsFile.inputStream())
                 .forEach(Restaurant.Entity::fromView)
     
             val diningTablesFile = File(resource("DiningTables.json"))

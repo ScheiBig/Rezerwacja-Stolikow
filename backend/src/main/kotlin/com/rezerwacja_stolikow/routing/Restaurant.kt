@@ -11,7 +11,9 @@ fun Routing.restaurantRoutes() {
     route("restaurants") {
         get {
             transaction {
-                Restaurant.Entity.all().map(Restaurant.Entity::toView)
+                Restaurant.Entity
+                    .all()
+                    .map(Restaurant.Entity::toView)
             }.ok respondTo this.call
         }
     }
