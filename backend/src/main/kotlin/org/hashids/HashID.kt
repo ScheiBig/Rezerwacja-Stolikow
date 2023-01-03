@@ -6,7 +6,7 @@ import java.lang.Long.toHexString
 import kotlin.math.ceil
 import kotlin.math.pow
 
-interface Hashidable {
+interface HashIDable {
     /**
      * Encodes numbers to string
      *
@@ -52,9 +52,9 @@ interface Hashidable {
  * @license MIT
  */
 
-class Hashids(
+class HashIDs(
     salt: String = defaultSalt, minHashLength: Int = defaultMinimalHashLength, alphabet: String = defaultAlphabet
-): Hashidable {
+): HashIDable {
     companion object {
         const val defaultSalt = ""
         const val defaultMinimalHashLength = 0
@@ -142,11 +142,16 @@ class Hashids(
      */
     @Throws(IllegalArgumentException::class)
     override fun encodeHex(hex: String): String = when {
-        !hex.matches("^[0-9a-fA-F]+$".toRegex()) -> emptyString
+        !hex.matches("""^[0-9a-fA-F]+$""".toRegex()) -> emptyString
         else -> {
-            val toEncode =
-                "[\\w\\W]{1,12}".toRegex().findAll(hex).map { it.groupValues }.flatten().map { it.toLong(16) }.toList()
-                    .toLongArray()
+            val toEncode = """[\w\W]{1,12}"""
+                .toRegex()
+                .findAll(hex)
+                .map { it.groupValues }
+                .flatten()
+                .map { it.toLong(16) }
+                .toList()
+                .toLongArray()
             encode(*toEncode)
         }
     }
@@ -157,7 +162,9 @@ class Hashids(
      * @param hash the encoded string
      * @return decoded hex numbers string
      */
-    override fun decodeHex(hash: String): String = decode(hash).map { toHexString(it).substring(1) }.toString()
+    override fun decodeHex(hash: String): String = decode(hash)
+        .map { toHexString(it).substring(1) }
+        .toString()
     
     private fun whatSalt(aSalt: String) = when {
         aSalt.isEmpty() -> defaultSalt
@@ -178,8 +185,13 @@ class Hashids(
             
             uniqueAlphabet.contains(space) -> throw IllegalArgumentException("alphabet cannot contains spaces")
             else -> {
-                val legalSeparators = defaultSeparators.toSet().intersect(uniqueAlphabet.toSet())
-                val alphabetWithoutSeparators = uniqueAlphabet.toSet().minus(legalSeparators).joinToString(emptyString)
+                val legalSeparators = defaultSeparators
+                    .toSet()
+                    .intersect(uniqueAlphabet.toSet())
+                val alphabetWithoutSeparators = uniqueAlphabet
+                    .toSet()
+                    .minus(legalSeparators)
+                    .joinToString(emptyString)
                 val shuffledSeparators = consistentShuffle(legalSeparators.joinToString(emptyString), finalSalt)
                 val (adjustedAlphabet, adjustedSeparators) = adjustAlphabetAndSeparators(
                     alphabetWithoutSeparators, shuffledSeparators
@@ -202,9 +214,7 @@ class Hashids(
     private fun adjustAlphabetAndSeparators(
         alphabetWithoutSeparators: String, shuffledSeparators: String
     ): AlphabetAndSeparators =
-        if (shuffledSeparators.isEmpty() ||
-            (alphabetWithoutSeparators.length / shuffledSeparators.length).toFloat() > separatorDiv
-        ) {
+        if (shuffledSeparators.isEmpty() || (alphabetWithoutSeparators.length / shuffledSeparators.length).toFloat() > separatorDiv) {
             
             val sepsLength = calculateSeparatorsLength(alphabetWithoutSeparators)
             
@@ -227,7 +237,9 @@ class Hashids(
             else -> s
         }
     
-    private fun unique(input: String) = input.toSet().joinToString(emptyString)
+    private fun unique(input: String) = input
+        .toSet()
+        .joinToString(emptyString)
     
     private fun addGuardsIfNecessary(encodedString: String, numbersHash: Int): String =
         if (encodedString.length < finalHashLength) {
@@ -253,7 +265,10 @@ class Hashids(
         val ithElementOfSplit = initialSplit[i]
         
         val lotteryChar = ithElementOfSplit.first()
-        val finalBreakdown = ithElementOfSplit.substring(1).replace(separatorsRegex, space).split(space)
+        val finalBreakdown = ithElementOfSplit
+            .substring(1)
+            .replace(separatorsRegex, space)
+            .split(space)
         return Pair(lotteryChar, finalBreakdown)
     }
     

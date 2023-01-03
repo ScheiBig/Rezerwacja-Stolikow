@@ -7,7 +7,7 @@ import io.ktor.server.util.*
 /**
  * Returns path to [resource][path] relative to project root
  */
-fun resource(path: String) = "src\\main\\resources\\$path"
+fun resource(path: String) = """src\main\resources\$path"""
 
 /**
  * Get parameters value associated with this [name] or fail with [MissingRequestParameterException]

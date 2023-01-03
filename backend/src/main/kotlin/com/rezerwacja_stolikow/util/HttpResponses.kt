@@ -14,19 +14,16 @@ import io.ktor.util.reflect.*
 annotation class HttpResponseWrapperDsl
 
 data class HttpResponse<T> @HttpResponseWrapperDsl constructor(
-    val status: HttpStatusCode,
-    val message: T
+    val status: HttpStatusCode, val message: T
 )
 
 //@HttpResponseWrapperDsl
 suspend infix fun HttpResponse<Any>.respondTo(
     responseContext: PipelineContext<Unit, ApplicationCall>
 ) = when (this.message) {
-    is Number, is Boolean, is Char, is String -> responseContext.context
-        .respondText(status = this.status) { this.message.toString() }
+    is Number, is Boolean, is Char, is String -> responseContext.context.respondText(status = this.status) { this.message.toString() }
     
-    else -> responseContext.context
-        .respond(this.status, this.message)
+    else -> responseContext.context.respond(this.status, this.message)
 }
 
 @HttpResponseWrapperDsl
@@ -38,8 +35,7 @@ suspend fun PipelineContext<Unit, ApplicationCall>.respond(
 suspend infix fun HttpResponse<Any>.respondTo(
     responseCall: ApplicationCall
 ) = when (this.message) {
-    is Number, is Boolean, is Char, is String ->
-        responseCall.respondText(status = this.status) { this.message.toString() }
+    is Number, is Boolean, is Char, is String -> responseCall.respondText(status = this.status) { this.message.toString() }
     
     else -> responseCall.respond(this.status, this.message)
 }
@@ -48,8 +44,7 @@ suspend infix fun HttpResponse<Any>.respondTo(
 suspend inline infix fun <reified T: Any> HttpResponse<T>.respondTo(
     responseCall: ApplicationCall
 ) = when (this.message) {
-    is Number, is Boolean, is Char, is String ->
-        responseCall.respondText(status = this.status) { this.message.toString() }
+    is Number, is Boolean, is Char, is String -> responseCall.respondText(status = this.status) { this.message.toString() }
     
     else -> responseCall.respond(this.status, this.message as Any, typeInfo<T>())
 }
@@ -57,67 +52,51 @@ suspend inline infix fun <reified T: Any> HttpResponse<T>.respondTo(
 
 // 2xx
 
-@HttpResponseWrapperDsl
-val <T> T.ok
+@HttpResponseWrapperDsl val <T> T.ok
     get() = HttpResponse(HttpStatusCode.OK, this)
 
-@HttpResponseWrapperDsl
-val <T> T.created
+@HttpResponseWrapperDsl val <T> T.created
     get() = HttpResponse(HttpStatusCode.Created, this)
 
-@HttpResponseWrapperDsl
-val <T> T.accepted
+@HttpResponseWrapperDsl val <T> T.accepted
     get() = HttpResponse(HttpStatusCode.Accepted, this)
 
-@HttpResponseWrapperDsl
-val <T> T.noContent
+@HttpResponseWrapperDsl val <T> T.noContent
     get() = HttpResponse(HttpStatusCode.NoContent, this)
 
 
 // 4xx
 
 
-@HttpResponseWrapperDsl
-val Throwable.badRequest: HttpResponse<Any>
+@HttpResponseWrapperDsl val Throwable.badRequest: HttpResponse<Any>
     get() = HttpResponse(HttpStatusCode.BadRequest, this.message ?: this::class.qualifiedName ?: "")
 
-@HttpResponseWrapperDsl
-val Throwable.unautorised: HttpResponse<Any>
+@HttpResponseWrapperDsl val Throwable.unautorised: HttpResponse<Any>
     get() = HttpResponse(HttpStatusCode.Unauthorized, this.message ?: this::class.qualifiedName ?: "")
 
-@HttpResponseWrapperDsl
-val Throwable.forbidden: HttpResponse<Any>
+@HttpResponseWrapperDsl val Throwable.forbidden: HttpResponse<Any>
     get() = HttpResponse(HttpStatusCode.BadRequest, this.message ?: this::class.qualifiedName ?: "")
 
-@HttpResponseWrapperDsl
-val Throwable.notFound: HttpResponse<Any>
+@HttpResponseWrapperDsl val Throwable.notFound: HttpResponse<Any>
     get() = HttpResponse(HttpStatusCode.NotFound, this.message ?: this::class.qualifiedName ?: "")
 
-@HttpResponseWrapperDsl
-val Throwable.methodNotAllowed: HttpResponse<Any>
+@HttpResponseWrapperDsl val Throwable.methodNotAllowed: HttpResponse<Any>
     get() = HttpResponse(HttpStatusCode.MethodNotAllowed, this.message ?: this::class.qualifiedName ?: "")
 
-@HttpResponseWrapperDsl
-val Throwable.notAcceptable: HttpResponse<Any>
+@HttpResponseWrapperDsl val Throwable.notAcceptable: HttpResponse<Any>
     get() = HttpResponse(HttpStatusCode.NotAcceptable, this.message ?: this::class.qualifiedName ?: "")
 
-@HttpResponseWrapperDsl
-val Throwable.requestTimeout: HttpResponse<Any>
+@HttpResponseWrapperDsl val Throwable.requestTimeout: HttpResponse<Any>
     get() = HttpResponse(HttpStatusCode.RequestTimeout, this.message ?: this::class.qualifiedName ?: "")
 
-@HttpResponseWrapperDsl
-val Throwable.conflict: HttpResponse<Any>
+@HttpResponseWrapperDsl val Throwable.conflict: HttpResponse<Any>
     get() = HttpResponse(HttpStatusCode.Conflict, this.message ?: this::class.qualifiedName ?: "")
 
-@HttpResponseWrapperDsl
-val Throwable.gone: HttpResponse<Any>
+@HttpResponseWrapperDsl val Throwable.gone: HttpResponse<Any>
     get() = HttpResponse(HttpStatusCode.Gone, this.message ?: this::class.qualifiedName ?: "")
 
-@Suppress("SpellCheckingInspection")
-@HttpResponseWrapperDsl
-val Throwable.unprocessableEntity: HttpResponse<Any>
+@Suppress("SpellCheckingInspection") @HttpResponseWrapperDsl val Throwable.unprocessableEntity: HttpResponse<Any>
     get() = HttpResponse(HttpStatusCode.UnprocessableEntity, this.message ?: this::class.qualifiedName ?: "")
 
-@HttpResponseWrapperDsl
-val Throwable.locked: HttpResponse<Any>
+@HttpResponseWrapperDsl val Throwable.locked: HttpResponse<Any>
     get() = HttpResponse(HttpStatusCode.Locked, this.message ?: this::class.qualifiedName ?: "")

@@ -14,12 +14,21 @@ fun Application.configureSecurity() {
     
     authentication {
         jwt {
-            val jwtAudience = this@configureSecurity.environment.config.property("jwt.audience").getString()
-            realm = this@configureSecurity.environment.config.property("jwt.realm").getString()
+            val jwtAudience = this@configureSecurity.environment.config
+                .property("jwt.audience")
+                .getString()
+            realm = this@configureSecurity.environment.config
+                .property("jwt.realm")
+                .getString()
             verifier(
-                JWT.require(Algorithm.HMAC256("secret"))
+                JWT
+                    .require(Algorithm.HMAC256("secret"))
                     .withAudience(jwtAudience)
-                    .withIssuer(this@configureSecurity.environment.config.property("jwt.domain").getString())
+                    .withIssuer(
+                        this@configureSecurity.environment.config
+                            .property("jwt.domain")
+                            .getString()
+                    )
                     .build()
             )
             validate { credential ->
