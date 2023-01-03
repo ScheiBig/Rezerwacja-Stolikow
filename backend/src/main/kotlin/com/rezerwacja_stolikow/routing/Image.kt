@@ -29,5 +29,24 @@ fun Routing.imageRoutes() {
             )
             this.call.respondFile(imageFile)
         }
+        get("restaurant_map/{id?}") {
+            val param = this.call.parameters
+            val imageHash = param("id")
+            val imageName = HashGenerator.decodeString(imageHash)
+            val imagePath = resourcePath(imageName)
+            val imageFile = File(imagePath)
+            if (!imageFile.exists() || imageName.isBlank() || !("""map/[0-9a-zA-Z]+\.svg""".toRegex() matches imageName)) {
+                throw NoSuchElementException("No such image with id: $imageHash")
+            }
+            this.call.response.header(
+                HttpHeaders.ContentDisposition,
+                ContentDisposition.Attachment
+                    .withParameter(
+                        ContentDisposition.Parameters.FileName, "map_${imagePath.split("/")[1]}.jpg"
+                    )
+                    .toString()
+            )
+            this.call.respondFile(imageFile)
+        }
     }
 }

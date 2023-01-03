@@ -173,6 +173,9 @@ backend/**/.gradletasknamecache
 # Java heap dump
 backend/**/*.hprof
 
+# Database
+backend/.database
+
 # End of https://www.toptal.com/developers/gitignore/api/intellij,gradle,kotlin
 
 
@@ -219,5 +222,28 @@ frontend/**/*.vsix
 # Ignore all local history of files
 frontend/**/.history
 frontend/**/.ionide
+
+# dependencies
+frontend/node_modules
+frontend/.pnp
+frontend/*/.pnp.js
+
+# testing
+frontend/coverage
+
+# production
+frontend/build
+
+# misc
+frontend/*/.DS_Store
+frontend/*/.env.local
+frontend/*/.env.development.local
+frontend/*/.env.test.local
+frontend/*/.env.production.local
+
+frontend/*/npm-debug.log*
+frontend/*/yarn-debug.log*
+frontend/*/yarn-error.log*
+
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,react
