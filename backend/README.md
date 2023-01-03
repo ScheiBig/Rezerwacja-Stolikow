@@ -57,7 +57,9 @@ Launches the unit tests.
               from: NumberEncodedTime,
               to: NumberEncodedTime
           }
-      }
+      },
+      image: URLStringRelative,
+      map: URLStringRelative
     }, …
   ]
   ```
