@@ -17,8 +17,9 @@ fun Routing.diningTableRoutes() {
         get("search") {
             val param = this.call.parameters
             val restaurantId = param("restaurantId").toLong()
-            val smokingAllowed = param["smokingAllowed"]?.toBooleanStrict()
             val byWindow = param["byWindow"]?.toBooleanStrict()
+            val outside = param["outside"]?.toBooleanStrict()
+            val smokingAllowed = param["smokingAllowed"]?.toBooleanStrict()
             
             if (transaction { Restaurant.Entity.findById(restaurantId) } == null) {
                 throw NoSuchElementException("No such restaurant: $restaurantId")
@@ -26,9 +27,12 @@ fun Routing.diningTableRoutes() {
             
             transaction {
                 val tablesQ = DiningTable.Table.select(DiningTable.Table.restaurant eq restaurantId)
-                smokingAllowed?.let { tablesQ.andWhere { DiningTable.Table.smokingAllowed eq smokingAllowed } }
                 byWindow?.let { tablesQ.andWhere { DiningTable.Table.byWindow eq byWindow } }
-                DiningTable.Entity.wrapRows(tablesQ).map(DiningTable.Entity::toView)
+                outside?.let { tablesQ.andWhere { DiningTable.Table.outside eq outside } }
+                smokingAllowed?.let { tablesQ.andWhere { DiningTable.Table.smokingAllowed eq smokingAllowed } }
+                DiningTable.Entity
+                    .wrapRows(tablesQ)
+                    .map(DiningTable.Entity::toView)
             }.ok respondTo this.call
         }
     }

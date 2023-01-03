@@ -71,9 +71,10 @@ Launches the unit tests.
 ###### Finds list of dining tables matching criteria
 
 #### Query parameters:
-- `restaurantId: Integer` - `number` property of restaurant
-- `smokingAllowed: Boolean?` - if table is in smoking-allowed zone - if not specified filtering is skipped
-- `byWindow: Boolean?` - if table should be directly by window - if not specified filtering is skipped
+- `restaurantId: Integer` - `number` property of restaurant,
+- `byWindow: Boolean?` - if table should be directly by window - if not specified filtering is skipped,
+- `outside: Boolean?` - if table should be located outside of building - if not specified filtering is skipped,
+- `smokingAllowed: Boolean?` - if table is in smoking-allowed zone - if not specified filtering is skipped.
 
 #### Responses:
 
@@ -83,8 +84,16 @@ Launches the unit tests.
     {
       restaurantID: Integer,
       number: Integer,
+      byWindow: Boolean,
+      outside: Boolean,
       smokingAllowed: Boolean,
-      byWindow: Boolean
+      chairs: Integer,
+      mapLocation: {
+        x: Integer,
+        y: Integer,
+        w: Integer,
+        h: Integer
+      }
     }, …
   ]
   ```
