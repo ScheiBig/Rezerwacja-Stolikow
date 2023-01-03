@@ -13,7 +13,11 @@ fun Routing.imageRoutes() {
         get("restaurant_thumb/{id?}") {
             val param = this.call.parameters
             val imageHash = param("id")
-            val imageName = HashGenerator.decodeString(imageHash)
+            val imageName = try {
+                HashGenerator.decodeString(imageHash)
+            } catch (_: Exception) {
+                throw NoSuchElementException("No such image with id: $imageHash")
+            }
             val imagePath = resourcePath(imageName)
             val imageFile = File(imagePath)
             if (!imageFile.exists() || imageName.isBlank() || !("""thumb/[0-9a-zA-Z]+\.jpg""".toRegex() matches imageName)) {
@@ -32,7 +36,11 @@ fun Routing.imageRoutes() {
         get("restaurant_map/{id?}") {
             val param = this.call.parameters
             val imageHash = param("id")
-            val imageName = HashGenerator.decodeString(imageHash)
+            val imageName = try {
+                HashGenerator.decodeString(imageHash)
+            } catch (_: Exception) {
+                throw NoSuchElementException("No such image with id: $imageHash")
+            }
             val imagePath = resourcePath(imageName)
             val imageFile = File(imagePath)
             if (!imageFile.exists() || imageName.isBlank() || !("""map/[0-9a-zA-Z]+\.svg""".toRegex() matches imageName)) {
