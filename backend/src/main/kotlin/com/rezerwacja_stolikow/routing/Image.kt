@@ -9,20 +9,23 @@ import java.io.File
 import com.rezerwacja_stolikow.util.resource as resourcePath
 
 fun Routing.imageRoutes() {
-    static("image") {
-        get("{id?}") {
+    route("image") {
+        get("restaurant_thumb/{id?}") {
             val param = this.call.parameters
             val imageHash = param("id")
             val imageName = HashGenerator.decodeString(imageHash)
             val imagePath = resourcePath(imageName)
             val imageFile = File(imagePath)
-            if (!imageFile.exists() || imageName.isBlank() || !imagePath.matches("restaurant/[0-9a-zA-Z]+\\.jpg".toRegex())) {
+            if (!imageFile.exists() || imageName.isBlank() || !("""thumb/[0-9a-zA-Z]+\.jpg""".toRegex() matches imageName)) {
                 throw NoSuchElementException("No such image with id: $imageHash")
             }
             this.call.response.header(
-                HttpHeaders.ContentDisposition, ContentDisposition.Attachment.withParameter(
-                    ContentDisposition.Parameters.FileName, "restaurant_${imagePath.split("/")[1]}.jpg"
-                ).toString()
+                HttpHeaders.ContentDisposition,
+                ContentDisposition.Attachment
+                    .withParameter(
+                        ContentDisposition.Parameters.FileName, "restaurant_${imagePath.split("/")[1]}.jpg"
+                    )
+                    .toString()
             )
             this.call.respondFile(imageFile)
         }
