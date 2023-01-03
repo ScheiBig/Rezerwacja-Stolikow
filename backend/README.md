@@ -35,7 +35,7 @@ Launches the unit tests.
 - `404 Not found` - The request contains parameter pointing to the list of static data, but its value is not found,
 - `408 Request timeout` - The endpoint has locked some data via session-like token, and token timed-out,
 - `409 Conflict` - The endpoint should point to data, that is taken by someone else,
-- `422 Unprocessable entity` The parameters provided to the request fail validation,
+- `422 Unprocessable entity` - The parameters provided to the request fail validation,
 - `423 Locked` - The endpoint should point to data, that is currently locked by (reserved for) someone else.
 
 ---
@@ -46,7 +46,7 @@ Launches the unit tests.
 
 #### Responses:
 
-- `200 OK`: array of Restaurant objects
+- `200 OK`: array of Restaurant objects:
   ```ts
   [
     {
@@ -75,7 +75,7 @@ Launches the unit tests.
 
 #### Responses:
 
-- `200 OK`: array of DiningTable objects
+- `200 OK`: array of DiningTable objects:
   ```ts
   [
     {
@@ -87,9 +87,34 @@ Launches the unit tests.
   ]
   ```
   empty array migth be returned if none are found.\
-  Combination of `restaurantID` and `number` properties is guaranteed to be unique for each object and thus can be used as `key`.
+  Combination of `restaurantID` and `number` properties is guaranteed to be unique for each object and thus
+  can be used as `key`.
 - `400 Bad request`: `restaurantId` is missing
 - `404 Not found`: `restaurantId` does not represent available restaurant
-- `422 Unprocessable entity` - any of parameters is wrong type
+- `422 Unprocessable entity`: any of parameters is wrong type
 
-### ##TODO add images##
+### [`⚓/image/restaurant_thumb/{hash_ID}`](http://localhost:42069/image/restaurant_thumb/)
+###### Sends *.jpg image of thumbnail of the restaurant
+
+#### URL parameters:
+- `hash_ID: String` - hashed ID of the thumbnail
+
+#### Responses:
+
+- `200 OK`: *.jpg image with the thumbnail.\
+  Neither images dimensions, nor aspect ratio is normalized.
+- `400 Bad request`: `hash_ID` is missing.
+- `404 Not found`: `hash_ID` doesn't represent existing resource.
+
+### [`⚓/image/restaurant_map/{hash_ID}`](http://localhost:42069/image/restaurant_map/)
+###### Sends *.svg image of top view map of the restaurant
+
+#### URL parameters:
+- `hash_ID: String` - hashed ID of the map
+
+#### Responses:
+
+- `200 OK`: *.svg image with the map.\
+  Map image should be overlayed with controls using `DinningTable.mapLocation` data.
+- `400 Bad request`: `hash_ID` is missing.
+- `404 Not found`: `hash_ID` doesn't represent existing resource.
