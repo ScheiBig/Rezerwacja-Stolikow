@@ -1,0 +1,142 @@
+[
+    {
+        "restaurantID": 1,
+        "number": 1,
+        "byWindow": true,
+        "outside": false,
+        "smokingAllowed": false,
+        "chairs": 5,
+        "mapLocation": {
+            "x": 109,
+            "y": 189,
+            "w": 202,
+            "h": 122
+        }
+    },
+    {
+        "restaurantID": 1,
+        "number": 2,
+        "byWindow": true,
+        "outside": false,
+        "smokingAllowed": false,
+        "chairs": 5,
+        "mapLocation": {
+            "x": 109,
+            "y": 439,
+            "w": 202,
+            "h": 122
+        }
+    },
+    {
+        "restaurantID": 1,
+        "number": 3,
+        "byWindow": false,
+        "outside": false,
+        "smokingAllowed": false,
+        "chairs": 4,
+        "mapLocation": {
+            "x": 469,
+            "y": 189,
+            "w": 122,
+            "h": 122
+        }
+    },
+    {
+        "restaurantID": 1,
+        "number": 4,
+        "byWindow": false,
+        "outside": false,
+        "smokingAllowed": false,
+        "chairs": 4,
+        "mapLocation": {
+            "x": 469,
+            "y": 439,
+            "w": 122,
+            "h": 122
+        }
+    },
+    {
+        "restaurantID": 1,
+        "number": 5,
+        "byWindow": false,
+        "outside": false,
+        "smokingAllowed": false,
+        "chairs": 3,
+        "mapLocation": {
+            "x": 749,
+            "y": 189,
+            "w": 122,
+            "h": 122
+        }
+    },
+    {
+        "restaurantID": 1,
+        "number": 6,
+        "byWindow": false,
+        "outside": false,
+        "smokingAllowed": false,
+        "chairs": 4,
+        "mapLocation": {
+            "x": 749,
+            "y": 439,
+            "w": 122,
+            "h": 122
+        }
+    },
+    {
+        "restaurantID": 1,
+        "number": 7,
+        "byWindow": false,
+        "outside": false,
+        "smokingAllowed": false,
+        "chairs": 6,
+        "mapLocation": {
+            "x": 569,
+            "y": 659,
+            "w": 202,
+            "h": 122
+        }
+    },
+    {
+        "restaurantID": 1,
+        "number": 11,
+        "byWindow": true,
+        "outside": false,
+        "smokingAllowed": true,
+        "chairs": 4,
+        "mapLocation": {
+            "x": 1029,
+            "y": 189,
+            "w": 162,
+            "h": 102
+        }
+    },
+    {
+        "restaurantID": 1,
+        "number": 12,
+        "byWindow": true,
+        "outside": false,
+        "smokingAllowed": true,
+        "chairs": 4,
+        "mapLocation": {
+            "x": 1029,
+            "y": 419,
+            "w": 162,
+            "h": 102
+        }
+    },
+    {
+        "restaurantID": 1,
+        "number": 13,
+        "byWindow": false,
+        "outside": false,
+        "smokingAllowed": true,
+        "chairs": 4,
+        "mapLocation": {
+            "x": 1029,
+            "y": 649,
+            "w": 162,
+            "h": 102
+        }
+    }
+]
