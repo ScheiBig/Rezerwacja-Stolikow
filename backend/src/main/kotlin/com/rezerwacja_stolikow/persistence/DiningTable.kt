@@ -11,30 +11,62 @@ object DiningTable {
     object Table: LongIdTable("dining_table") {
         val restaurant = reference("restaurant", Restaurant.Table)
         val number = integer("number")
-        val smokingAllowed = bool("smoking_allowed")
         val byWindow = bool("by_window")
+        val outside = bool("outside")
+        val smokingAllowed = bool("smoking_allowed")
+        val chairs = integer("chairs")
+        val mapLocationX = integer("mloc_x")
+        val mapLocationY = integer("mloc_y")
+        val mapLocationW = integer("mloc_w")
+        val mapLocationH = integer("mloc_h")
     }
     
     class Entity(id: EntityID<Long>): LongEntity(id) {
         companion object: LongEntityClass<Entity>(Table) {
             fun fromView(obj: View) = new {
-                restaurant = Restaurant.Entity.findById(obj.restaurantID)!!
-                number = obj.number
-                smokingAllowed = obj.smokingAllowed
-                byWindow = obj.byWindow
+                this.restaurant = Restaurant.Entity.findById(obj.restaurantID)!!
+                this.number = obj.number
+                this.byWindow = obj.byWindow
+                this.outside = obj.outside
+                this.smokingAllowed = obj.smokingAllowed
+                this.chairs = obj.chairs
+                this.mapLocationX = obj.mapLocation.x
+                this.mapLocationY = obj.mapLocation.y
+                this.mapLocationW = obj.mapLocation.w
+                this.mapLocationH = obj.mapLocation.h
             }
         }
         
         var restaurant by Restaurant.Entity referencedOn Table.restaurant
         var number by Table.number
-        var smokingAllowed by Table.smokingAllowed
         var byWindow by Table.byWindow
+        var outside by Table.outside
+        var smokingAllowed by Table.smokingAllowed
+        var chairs by Table.chairs
+        var mapLocationX by Table.mapLocationX
+        var mapLocationY by Table.mapLocationY
+        var mapLocationW by Table.mapLocationW
+        var mapLocationH by Table.mapLocationH
         
-        fun toView() = View(restaurant.id.value, number, smokingAllowed, byWindow)
+        fun toView() = View(
+            this.restaurant.id.value,
+            this.number,
+            this.byWindow,
+            this.outside,
+            this.smokingAllowed,
+            this.chairs,
+            MapLocation.View(this.mapLocationX, this.mapLocationY, this.mapLocationW, this.mapLocationH)
+        )
     }
     
     @Serializable
     data class View(
-        val restaurantID: Long, val number: Int, val smokingAllowed: Boolean, val byWindow: Boolean
+        val restaurantID: Long,
+        val number: Int,
+        val byWindow: Boolean,
+        val outside: Boolean,
+        val smokingAllowed: Boolean,
+        val chairs: Int,
+        val mapLocation: MapLocation.View
     )
 }

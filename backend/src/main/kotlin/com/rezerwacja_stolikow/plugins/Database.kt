@@ -23,10 +23,20 @@ object DatabaseFactory {
             Json
                 .decodeFromStream<List<Restaurant.View>>(restaurantsFile.inputStream())
                 .forEach(Restaurant.Entity::fromView)
-    
-            val diningTablesFile = File(resource("DiningTables.json"))
-            Json.decodeFromStream<List<DiningTable.View>>(diningTablesFile.inputStream())
-                .forEach(DiningTable.Entity::fromView)
+            
+            val diningTablesDirectory = File(resource("data/dining_tables"))
+            diningTablesDirectory
+                .listFiles { _, fileName ->
+                    fileName
+                        .split(".")
+                        .getOrNull(1)
+                        ?.let { it == "json" } ?: false
+                }
+                ?.forEach { jsonFile ->
+                    Json
+                        .decodeFromStream<List<DiningTable.View>>(jsonFile.inputStream())
+                        .forEach(DiningTable.Entity::fromView)
+                }
         }
     }
 }
