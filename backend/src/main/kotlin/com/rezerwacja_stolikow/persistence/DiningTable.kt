@@ -1,6 +1,12 @@
 package com.rezerwacja_stolikow.persistence
 
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -70,12 +76,33 @@ object DiningTable {
         val mapLocation: MapLocation.View
     ): SimpleViewModeling
     
-    interface SimpleViewModeling {
+    @Serializable(with = SimpleViewModelingSerializer::class)
+    sealed interface SimpleViewModeling {
         val restaurantID: Long
         val number: Int
         val byWindow: Boolean?
         val outside: Boolean?
         val smokingAllowed: Boolean?
+    }
+    
+    object SimpleViewModelingSerializer: KSerializer<SimpleViewModeling> {
+        override val descriptor = PrimitiveSerialDescriptor("DiningTable.SimpleViewModeling", PrimitiveKind.STRING)
+        private val simpleViewSerializer = SimpleView.serializer()
+        override fun deserialize(decoder: Decoder): SimpleViewModeling {
+            return simpleViewSerializer.deserialize(decoder)
+        }
+        
+        override fun serialize(encoder: Encoder, value: SimpleViewModeling) {
+            val view = SimpleView(
+                restaurantID = value.restaurantID,
+                number = value.number,
+                byWindow = value.byWindow,
+                outside = value.outside,
+                smokingAllowed = value.smokingAllowed
+            )
+            simpleViewSerializer.serialize(encoder, view)
+        }
+        
     }
     
     @Serializable

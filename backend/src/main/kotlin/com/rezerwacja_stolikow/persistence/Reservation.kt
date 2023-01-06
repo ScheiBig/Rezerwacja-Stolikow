@@ -6,9 +6,7 @@ object Reservation {
     
     @Serializable
     data class View(
-        val personDetails: Person.View,
-        val dateTime: DateTime.View,
-        val diningTable: DiningTable.SimpleView
+        val personDetails: Person.View, val dateTime: DateTime.View, val diningTable: DiningTable.SimpleViewModeling
     )
 }
 
@@ -22,8 +20,7 @@ object Person {
 object DateTime {
     @Serializable
     data class View(
-        val date: String,
-        val time: String
+        val date: String, val time: String
     )
     
 }
