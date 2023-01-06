@@ -61,12 +61,29 @@ object DiningTable {
     
     @Serializable
     data class View(
-        val restaurantID: Long,
-        val number: Int,
-        val byWindow: Boolean,
-        val outside: Boolean,
-        val smokingAllowed: Boolean,
+        override val restaurantID: Long,
+        override val number: Int,
+        override val byWindow: Boolean,
+        override val outside: Boolean,
+        override val smokingAllowed: Boolean,
         val chairs: Int,
         val mapLocation: MapLocation.View
-    )
+    ): SimpleViewModeling
+    
+    interface SimpleViewModeling {
+        val restaurantID: Long
+        val number: Int
+        val byWindow: Boolean?
+        val outside: Boolean?
+        val smokingAllowed: Boolean?
+    }
+    
+    @Serializable
+    data class SimpleView(
+        override val restaurantID: Long,
+        override val number: Int,
+        override val byWindow: Boolean? = null,
+        override val outside: Boolean? = null,
+        override val smokingAllowed: Boolean? = null
+    ): SimpleViewModeling
 }
