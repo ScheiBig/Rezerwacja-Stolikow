@@ -1,26 +1,35 @@
 package com.rezerwacja_stolikow.persistence
 
+import com.rezerwacja_stolikow.serialization.PhoneNumberSerializer
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 
 object Reservation {
     
     @Serializable
     data class View(
-        val personDetails: Person.View, val dateTime: DateTime.View, val diningTable: DiningTable.SimpleViewModeling
+        val personDetails: Person.View,
+        val dateTime: LocalDateTime,
+        val diningTable: DiningTable.SimpleViewModeling,
+        val removalToken: String
     )
 }
 
 object Person {
     @Serializable
     data class View(
-        val firstName: String, val lastName: String, val phoneNumber: String
+        val firstName: String,
+        val lastName: String,
+        @Serializable(with = PhoneNumberSerializer::class) val phoneNumber: String
     )
 }
 
 object DateTime {
+    @Deprecated("Removing custom format", replaceWith = ReplaceWith("LocalDateTime", "kotlinx.datetime.LocalDateTime"))
     @Serializable
     data class View(
-        val date: String, val time: String
+        val date: String,
+        val time: String
     )
-    
 }

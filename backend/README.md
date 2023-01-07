@@ -50,16 +50,16 @@ Launches the unit tests.
   ```ts
   [
     {
-      ID: Integer,
+      ID: Long,
       name: String,
       openingHours: {
           day("monday" - "sunday"): {
-              from: NumberEncodedTime,
-              to: NumberEncodedTime
+              from: @ISO_8601("HH:mm") String,
+              to: @ISO_8601("HH:mm") String
           }
       },
-      image: URLStringRelative,
-      map: URLStringRelative
+      image: @URLRelative String,
+      map: @URLRelative String
     }, …
   ]
   ```
@@ -82,7 +82,7 @@ Launches the unit tests.
   ```ts
   [
     {
-      restaurantID: Integer,
+      restaurantID: Long,
       number: Integer,
       byWindow: Boolean,
       outside: Boolean,

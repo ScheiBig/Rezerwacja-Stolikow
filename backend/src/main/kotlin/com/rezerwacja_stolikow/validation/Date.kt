@@ -2,6 +2,7 @@ package com.rezerwacja_stolikow.validation
 
 import com.rezerwacja_stolikow.util.with
 
+@Deprecated("Removing custom format")
 object Date {
     private val nfe = NumberFormatException("Invalid date!")
     

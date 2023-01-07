@@ -3,32 +3,32 @@
         "name": "ABC",
         "openingHours": {
             "monday": {
-                "from": 1200,
-                "to": 2200
+                "from": "12:00",
+                "to": "22:00"
             },
             "tuesday": {
-                "from": 1200,
-                "to": 2200
+                "from": "12:00",
+                "to": "22:00"
             },
             "wednesday": {
-                "from": 1200,
-                "to": 2200
+                "from": "12:00",
+                "to": "22:00"
             },
             "thursday": {
-                "from": 1200,
-                "to": 2200
+                "from": "12:00",
+                "to": "22:00"
             },
             "friday": {
-                "from": 1200,
-                "to": 2200
+                "from": "12:00",
+                "to": "22:00"
             },
             "saturday": {
-                "from": 1200,
-                "to": 2200
+                "from": "12:00",
+                "to": "22:00"
             },
             "sunday": {
-                "from": 1200,
-                "to": 2200
+                "from": "12:00",
+                "to": "22:00"
             }
         },
         "image": "./image/restaurant_thumb/7pvIzDCV4u4OtMWUyVcnMF0GIRwsW1sOM",
@@ -38,32 +38,32 @@
         "name": "LMNO",
         "openingHours": {
             "monday": {
-                "from": 800,
-                "to": 2000
+                "from": "08:00",
+                "to": "20:00"
             },
             "tuesday": {
-                "from": 800,
-                "to": 2000
+                "from": "08:00",
+                "to": "20:00"
             },
             "wednesday": {
-                "from": 800,
-                "to": 2000
+                "from": "08:00",
+                "to": "20:00"
             },
             "thursday": {
-                "from": 800,
-                "to": 2000
+                "from": "08:00",
+                "to": "20:00"
             },
             "friday": {
-                "from": 800,
-                "to": 2000
+                "from": "08:00",
+                "to": "20:00"
             },
             "saturday": {
-                "from": 1000,
-                "to": 0
+                "from": "10:00",
+                "to": "00:00"
             },
             "sunday": {
-                "from": 1000,
-                "to": 0
+                "from": "10:00",
+                "to": "00:00"
             }
         },
         "image": "./image/restaurant_thumb/4GnUrVCM3i9pFq5h5AcWqSLdIewS3Oip0",
@@ -73,32 +73,32 @@
         "name": "XYZ",
         "openingHours": {
             "monday": {
-                "from": 700,
-                "to": 2100
+                "from": "07:00",
+                "to": "21:00"
             },
             "tuesday": {
-                "from": 700,
-                "to": 2100
+                "from": "07:00",
+                "to": "21:00"
             },
             "wednesday": {
-                "from": 700,
-                "to": 2100
+                "from": "07:00",
+                "to": "21:00"
             },
             "thursday": {
-                "from": 700,
-                "to": 2100
+                "from": "07:00",
+                "to": "21:00"
             },
             "friday": {
-                "from": 1200,
-                "to": 100
+                "from": "12:00",
+                "to": "01:00"
             },
             "saturday": {
-                "from": 1200,
-                "to": 100
+                "from": "12:00",
+                "to": "01:00"
             },
             "sunday": {
-                "from": 1200,
-                "to": 100
+                "from": "12:00",
+                "to": "01:00"
             }
         },
         "image": "./image/restaurant_thumb/pPaS4wT19u51Hokh3gcOKTo4IyaSaMC8y",

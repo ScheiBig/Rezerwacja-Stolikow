@@ -1,5 +1,6 @@
 package com.rezerwacja_stolikow.validation
 
+@Deprecated("Removing custom format")
 object Time {
     private val nfe = NumberFormatException("Invalid time!")
     
