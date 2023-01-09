@@ -1,7 +1,9 @@
 <configuration>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+<!--        <encoder>-->
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+<!--            <pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%thread] %highlight(%-5level) %logger{36} - %msg%n%n</pattern>-->
+            <layout class="com.rezerwacja_stolikow.util.LoggerLayout"/>
         </encoder>
     </appender>
     <root level="trace">
