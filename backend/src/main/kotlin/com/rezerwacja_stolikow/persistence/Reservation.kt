@@ -10,9 +10,10 @@ object Reservation {
     @Serializable
     data class View(
         val personDetails: Person.View,
-        val dateTime: LocalDateTime,
         val diningTable: DiningTable.SimpleViewModeling,
-        val removalToken: String
+        val startDateTime: LocalDateTime,
+        val endDateTime: LocalDateTime,
+        val removalToken: String? = null
     )
 }
 

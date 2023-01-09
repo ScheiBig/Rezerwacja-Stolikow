@@ -8,8 +8,7 @@ import com.rezerwacja_stolikow.util.respondTo
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.andWhere
-import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
 
 fun Routing.diningTableRoutes() {
@@ -26,13 +25,15 @@ fun Routing.diningTableRoutes() {
             }
             
             transaction {
-                val tablesQ = DiningTable.Table.select(DiningTable.Table.restaurant eq restaurantId)
-                byWindow?.let { tablesQ.andWhere { DiningTable.Table.byWindow eq byWindow } }
-                outside?.let { tablesQ.andWhere { DiningTable.Table.outside eq outside } }
-                smokingAllowed?.let { tablesQ.andWhere { DiningTable.Table.smokingAllowed eq smokingAllowed } }
+                val tablesE = DiningTable.Table.restaurant eq restaurantId
+                byWindow?.let { tablesE.and { DiningTable.Table.byWindow eq byWindow } }
+                outside?.let { tablesE.and { DiningTable.Table.outside eq outside } }
+                smokingAllowed?.let { tablesE.and { DiningTable.Table.smokingAllowed eq smokingAllowed } }
+                
                 DiningTable.Entity
-                    .wrapRows(tablesQ)
+                    .find(tablesE)
                     .map(DiningTable.Entity::toView)
+                
             }.ok respondTo this.call
         }
     }
