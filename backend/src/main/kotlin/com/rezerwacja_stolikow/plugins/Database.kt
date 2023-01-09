@@ -1,8 +1,13 @@
+@file:OptIn(ExperimentalSerializationApi::class)
+
 package com.rezerwacja_stolikow.plugins
 
 import com.rezerwacja_stolikow.persistence.DiningTable
+import com.rezerwacja_stolikow.persistence.PendingLock
+import com.rezerwacja_stolikow.persistence.Reservation
 import com.rezerwacja_stolikow.persistence.Restaurant
 import com.rezerwacja_stolikow.util.resource
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import org.jetbrains.exposed.sql.Database
@@ -13,11 +18,16 @@ import java.io.File
 object DatabaseFactory {
     private lateinit var database: Database
     
-    fun init(driverClass: String, databaseURL: String, username: String = "", password: String = "") {
+    fun init(
+        driverClass: String,
+        databaseURL: String,
+        username: String = "",
+        password: String = ""
+    ) {
         database = Database.connect(databaseURL, driverClass, username, password)
         transaction(database) {
-            SchemaUtils.drop(Restaurant.Table, DiningTable.Table)
-            SchemaUtils.create(Restaurant.Table, DiningTable.Table)
+            SchemaUtils.drop(Restaurant.Table, DiningTable.Table, PendingLock.Table, Reservation.Table)
+            SchemaUtils.create(Restaurant.Table, DiningTable.Table, PendingLock.Table, Reservation.Table)
             
             val restaurantsFile = File(resource("data/Restaurants.json"))
             Json
