@@ -1,4 +1,4 @@
-@file:Suppress("KDocMissingDocumentation", "MemberVisibilityCanBePrivate", "unused")
+@file:Suppress("KDocMissingDocumentation", "unused")
 
 package org.hashids
 
@@ -53,7 +53,9 @@ interface HashIDable {
  */
 
 class HashIDs(
-    salt: String = defaultSalt, minHashLength: Int = defaultMinimalHashLength, alphabet: String = defaultAlphabet
+    salt: String = defaultSalt,
+    minHashLength: Int = defaultMinimalHashLength,
+    alphabet: String = defaultAlphabet
 ): HashIDable {
     companion object {
         const val defaultSalt = ""
@@ -131,8 +133,11 @@ class HashIDs(
         }
     }
     
-    private fun guardIndex(numbersHash: Int, returnString: String, index: Int): Int =
-        (numbersHash + returnString.toCharArray()[index].code) % finalGuards.length
+    private fun guardIndex(
+        numbersHash: Int,
+        returnString: String,
+        index: Int
+    ): Int = (numbersHash + returnString.toCharArray()[index].code) % finalGuards.length
     
     /**
      * Encoded hex string to string
@@ -212,9 +217,13 @@ class HashIDs(
     }
     
     private fun adjustAlphabetAndSeparators(
-        alphabetWithoutSeparators: String, shuffledSeparators: String
+        alphabetWithoutSeparators: String,
+        shuffledSeparators: String
     ): AlphabetAndSeparators =
-        if (shuffledSeparators.isEmpty() || (alphabetWithoutSeparators.length / shuffledSeparators.length).toFloat() > separatorDiv) {
+        if (shuffledSeparators.isEmpty() || (alphabetWithoutSeparators.length / shuffledSeparators.length)
+                .toFloat()
+                .compareTo(separatorDiv) > 0
+        ) {
             
             val sepsLength = calculateSeparatorsLength(alphabetWithoutSeparators)
             
@@ -241,20 +250,22 @@ class HashIDs(
         .toSet()
         .joinToString(emptyString)
     
-    private fun addGuardsIfNecessary(encodedString: String, numbersHash: Int): String =
-        if (encodedString.length < finalHashLength) {
-            val guard0 = finalGuards.toCharArray()[guardIndex(numbersHash, encodedString, 0)]
-            val retString = guard0 + encodedString
-            
-            if (retString.length < finalHashLength) {
-                val guard2 = finalGuards.toCharArray()[guardIndex(numbersHash, retString, 2)]
-                retString + guard2
-            } else {
-                retString
-            }
+    private fun addGuardsIfNecessary(
+        encodedString: String,
+        numbersHash: Int
+    ): String = if (encodedString.length < finalHashLength) {
+        val guard0 = finalGuards.toCharArray()[guardIndex(numbersHash, encodedString, 0)]
+        val retString = guard0 + encodedString
+        
+        if (retString.length < finalHashLength) {
+            val guard2 = finalGuards.toCharArray()[guardIndex(numbersHash, retString, 2)]
+            retString + guard2
         } else {
-            encodedString
+            retString
         }
+    } else {
+        encodedString
+    }
     
     private fun extractLotteryCharAndHashArray(initialSplit: List<String>): Pair<Char, List<String>> {
         val separatorsRegex = "[$finalSeparators]".toRegex()
@@ -273,7 +284,10 @@ class HashIDs(
     }
     
     private tailrec fun unhashSubHashes(
-        hashes: Iterator<String>, lottery: Char, currentReturn: MutableList<Long>, alphabet: String
+        hashes: Iterator<String>,
+        lottery: Char,
+        currentReturn: MutableList<Long>,
+        alphabet: String
     ): LongArray {
         return when {
             hashes.hasNext() -> {
@@ -288,10 +302,16 @@ class HashIDs(
         }
     }
     
-    private fun hash(input: Long, alphabet: String): String =
-        doHash(input, alphabet.toCharArray(), HashData(emptyString, input)).hash
+    private fun hash(
+        input: Long,
+        alphabet: String
+    ): String = doHash(input, alphabet.toCharArray(), HashData(emptyString, input)).hash
     
-    private tailrec fun doHash(number: Long, alphabet: CharArray, data: HashData): HashData = when {
+    private tailrec fun doHash(
+        number: Long,
+        alphabet: CharArray,
+        data: HashData
+    ): HashData = when {
         data.current > 0 -> {
             val newHashCharacter = alphabet[(data.current % alphabet.size.toLong()).toInt()]
             val newCurrent = data.current / alphabet.size
@@ -301,11 +321,17 @@ class HashIDs(
         else -> data
     }
     
-    private fun unhash(input: String, alphabet: String): Long =
-        doUnhash(input.toCharArray(), alphabet, alphabet.length.toDouble(), 0, 0)
+    private fun unhash(
+        input: String,
+        alphabet: String
+    ): Long = doUnhash(input.toCharArray(), alphabet, alphabet.length.toDouble(), 0, 0)
     
     private tailrec fun doUnhash(
-        input: CharArray, alphabet: String, alphabetLengthDouble: Double, currentNumber: Long, currentIndex: Int
+        input: CharArray,
+        alphabet: String,
+        alphabetLengthDouble: Double,
+        currentNumber: Long,
+        currentIndex: Int
     ): Long = when {
         currentIndex < input.size -> {
             val position = alphabet.indexOf(input[currentIndex])
@@ -317,7 +343,10 @@ class HashIDs(
         else -> currentNumber
     }
     
-    private fun consistentShuffle(alphabet: String, salt: String) = when {
+    private fun consistentShuffle(
+        alphabet: String,
+        salt: String
+    ) = when {
         salt.isEmpty() -> alphabet
         else -> {
             val initial = ShuffleData(alphabet.toList(), salt, 0, 0)
@@ -325,7 +354,11 @@ class HashIDs(
         }
     }
     
-    private tailrec fun shuffle(data: ShuffleData, currentPosition: Int, limit: Int): ShuffleData = when {
+    private tailrec fun shuffle(
+        data: ShuffleData,
+        currentPosition: Int,
+        limit: Int
+    ): ShuffleData = when {
         currentPosition < limit -> data
         else -> {
             val currentAlphabet = data.alphabet.toCharArray()
@@ -371,7 +404,11 @@ class HashIDs(
         else -> Pair(currentReturnString, alphabet)
     }
     
-    private tailrec fun ensureMinimalLength(halfLength: Int, alphabet: String, returnString: String): String = when {
+    private tailrec fun ensureMinimalLength(
+        halfLength: Int,
+        alphabet: String,
+        returnString: String
+    ): String = when {
         returnString.length < finalHashLength -> {
             val newAlphabet = consistentShuffle(alphabet, alphabet)
             val tempReturnString =
@@ -391,8 +428,20 @@ class HashIDs(
     
 }
 
-private data class AlphabetAndSeparators(val alphabet: String, val separators: String, val guards: String = "")
+private data class AlphabetAndSeparators(
+    val alphabet: String,
+    val separators: String,
+    val guards: String = ""
+)
 
-private data class ShuffleData(val alphabet: List<Char>, val salt: String, val cumulative: Int, val saltReminder: Int)
+private data class ShuffleData(
+    val alphabet: List<Char>,
+    val salt: String,
+    val cumulative: Int,
+    val saltReminder: Int
+)
 
-private data class HashData(val hash: String, val current: Long)
+private data class HashData(
+    val hash: String,
+    val current: Long
+)

@@ -1,4 +1,4 @@
-# Rezerwacja Stolików - Backend
+# Rezerwacja Stolików — Backend
 
 ### Project created using:
 - ![favicon](https://www.google.com/s2/favicons?domain=gradle.org)

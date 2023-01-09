@@ -2,7 +2,6 @@ package com.rezerwacja_stolikow.routing
 
 import com.rezerwacja_stolikow.errors.*
 import com.rezerwacja_stolikow.util.*
-import imageRoutes
 import io.ktor.server.application.*
 import io.ktor.server.plugins.*
 import io.ktor.server.plugins.statuspages.*
@@ -18,7 +17,7 @@ fun Application.configureRouting() {
         }
         /// 401 Unauthorized
         exception<AuthenticationException> { call, cause ->
-            cause.unautorised respondTo call
+            cause.unauthorised respondTo call
         }
         /// 403 Forbidden
         exception<AuthorizationException> { call, cause ->

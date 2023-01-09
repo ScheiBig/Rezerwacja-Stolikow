@@ -14,14 +14,17 @@ import io.ktor.util.reflect.*
 annotation class HttpResponseWrapperDsl
 
 data class HttpResponse<T> @HttpResponseWrapperDsl constructor(
-    val status: HttpStatusCode, val message: T
+    val status: HttpStatusCode,
+    val message: T
 )
 
 //@HttpResponseWrapperDsl
 suspend infix fun HttpResponse<Any>.respondTo(
     responseContext: PipelineContext<Unit, ApplicationCall>
 ) = when (this.message) {
-    is Number, is Boolean, is Char, is String -> responseContext.context.respondText(status = this.status) { this.message.toString() }
+    is Number, is Boolean, is Char, is String -> responseContext.context.respondText(status = this.status) {
+        this.message.toString()
+    }
     
     else -> responseContext.context.respond(this.status, this.message)
 }
@@ -35,7 +38,9 @@ suspend fun PipelineContext<Unit, ApplicationCall>.respond(
 suspend infix fun HttpResponse<Any>.respondTo(
     responseCall: ApplicationCall
 ) = when (this.message) {
-    is Number, is Boolean, is Char, is String -> responseCall.respondText(status = this.status) { this.message.toString() }
+    is Number, is Boolean, is Char, is String -> responseCall.respondText(status = this.status) {
+        this.message.toString()
+    }
     
     else -> responseCall.respond(this.status, this.message)
 }
@@ -44,7 +49,9 @@ suspend infix fun HttpResponse<Any>.respondTo(
 suspend inline infix fun <reified T: Any> HttpResponse<T>.respondTo(
     responseCall: ApplicationCall
 ) = when (this.message) {
-    is Number, is Boolean, is Char, is String -> responseCall.respondText(status = this.status) { this.message.toString() }
+    is Number, is Boolean, is Char, is String -> responseCall.respondText(status = this.status) {
+        this.message.toString()
+    }
     
     else -> responseCall.respond(this.status, this.message as Any, typeInfo<T>())
 }
@@ -71,7 +78,7 @@ suspend inline infix fun <reified T: Any> HttpResponse<T>.respondTo(
 @HttpResponseWrapperDsl val Throwable.badRequest: HttpResponse<Any>
     get() = HttpResponse(HttpStatusCode.BadRequest, this.message ?: this::class.qualifiedName ?: "")
 
-@HttpResponseWrapperDsl val Throwable.unautorised: HttpResponse<Any>
+@HttpResponseWrapperDsl val Throwable.unauthorised: HttpResponse<Any>
     get() = HttpResponse(HttpStatusCode.Unauthorized, this.message ?: this::class.qualifiedName ?: "")
 
 @HttpResponseWrapperDsl val Throwable.forbidden: HttpResponse<Any>

@@ -1,5 +1,3 @@
-@file:Suppress("MemberVisibilityCanBePrivate")
-
 package com.rezerwacja_stolikow.persistence
 
 import com.rezerwacja_stolikow.serialization.PhoneNumberSerializer
@@ -110,6 +108,7 @@ object Person {
     )
 }
 
+@Deprecated("Removing custom format")
 object DateTime {
     @Deprecated("Removing custom format", replaceWith = ReplaceWith("LocalDateTime", "kotlinx.datetime.LocalDateTime"))
     @Serializable

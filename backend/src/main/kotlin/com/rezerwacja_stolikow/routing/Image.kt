@@ -1,8 +1,9 @@
+package com.rezerwacja_stolikow.routing
+
 import com.rezerwacja_stolikow.HashGenerator
 import com.rezerwacja_stolikow.util.invoke
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.http.content.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import java.io.File
@@ -20,7 +21,10 @@ fun Routing.imageRoutes() {
             }
             val imagePath = resourcePath(imageName)
             val imageFile = File(imagePath)
-            if (!imageFile.exists() || imageName.isBlank() || !("""thumb/[0-9a-zA-Z]+\.jpg""".toRegex() matches imageName)) {
+            if (!imageFile.exists() || imageName.isBlank() || !("""thumb/[0-9a-zA-Z]+\.jpg"""
+                    .toRegex()
+                    .matches(imageName))
+            ) {
                 throw NoSuchElementException("No such image with id: $imageHash")
             }
             this.call.response.header(
@@ -43,7 +47,10 @@ fun Routing.imageRoutes() {
             }
             val imagePath = resourcePath(imageName)
             val imageFile = File(imagePath)
-            if (!imageFile.exists() || imageName.isBlank() || !("""map/[0-9a-zA-Z]+\.svg""".toRegex() matches imageName)) {
+            if (!imageFile.exists() || imageName.isBlank() || !("""map/[0-9a-zA-Z]+\.svg"""
+                    .toRegex()
+                    .matches(imageName))
+            ) {
                 throw NoSuchElementException("No such image with id: $imageHash")
             }
             this.call.response.header(
