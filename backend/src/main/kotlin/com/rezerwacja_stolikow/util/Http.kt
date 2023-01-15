@@ -5,10 +5,19 @@ package com.rezerwacja_stolikow.util
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.util.*
 import io.ktor.util.pipeline.*
 import io.ktor.util.reflect.*
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+
+/**
+ * Receives content for this request, if one is available
+ */
+suspend inline fun <reified T: Any> ApplicationCall.receiveOptional() =
+    if (this.request.contentType() == ContentType.Application.Json) Json.decodeFromString<T>(receiveText()) else null
 
 @DslMarker
 annotation class HttpResponseWrapperDsl
