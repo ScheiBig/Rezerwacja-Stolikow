@@ -95,8 +95,8 @@ Launches the unit tests.
       byWindow: Boolean,
       outside: Boolean,
       smokingAllowed: Boolean,
-      chairs: Integer,
-      mapLocation: {
+      $chairs: Integer,
+      $mapLocation: {
         x: Integer,
         y: Integer,
         w: Integer,
@@ -107,7 +107,8 @@ Launches the unit tests.
   ```
   empty array might be returned if none are found.\
   Combination of `restaurantID` and `number` properties is guaranteed to be unique for each object and thus
-  can be used as `key`.
+  can be used as `key`.\
+  Properties `chairs` and `mapLocation` are only present in unfiltered request.
 - `400 Bad request`: `restaurantId` is missing
 - `404 Not found`: `restaurantId` does not represent available restaurant
 - `422 Unprocessable entity`: any of parameters is wrong type
@@ -116,7 +117,7 @@ Launches the unit tests.
 ###### Sends *.jpg image of thumbnail of the restaurant
 
 #### URL parameters:
-- `hash_ID: String` - hashed ID of the thumbnail
+- `hash_ID: String` — hashed ID of the thumbnail
 
 #### Responses:
 
@@ -129,7 +130,7 @@ Launches the unit tests.
 ###### Sends *.svg image of top view map of the restaurant
 
 #### URL parameters:
-- `hash_ID: String` - hashed ID of the map
+- `hash_ID: String` — hashed ID of the map
 
 #### Responses:
 

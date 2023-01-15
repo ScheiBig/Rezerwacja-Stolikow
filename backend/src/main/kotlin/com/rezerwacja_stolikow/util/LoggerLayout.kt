@@ -14,26 +14,31 @@ class LoggerLayout: LayoutBase<ILoggingEvent>() {
         Level.TRACE_INT -> ANSI.Font.Bright.green
         else -> ""
     }.let { color ->
-        StringBuilder()
-            .append(color)
-            .append(
+        buildString {
+            append(color)
+            append(
                 LocalDateTime
                     .fromEpochMilliseconds(event.timeStamp)
                     .toString()
                     .replace('T', ' ')
             )
-            .append(" ${ANSI.Font.Bright.white}[")
-            .append(event.threadName)
-            .append("] ${ANSI.reset}")
-            .append(color)
-            .append(event.level)
-            .append(" ${ANSI.Font.Bright.white}")
-            .append(event.loggerName.take(20))
-            .append(ANSI.Font.Bright.black)
-            .append(" => ")
-            .append(ANSI.reset)
-            .append(event.formattedMessage)
-            .append("\n\n")
-            .toString()
+            
+            append(" ${ANSI.Font.Bright.white}[")
+            append(event.threadName)
+            append("] ${ANSI.reset}")
+            
+            append(color)
+            append(event.level)
+            
+            append(" ${ANSI.Font.Bright.white}")
+            append(event.loggerName.take(36))
+            
+            append(ANSI.Font.Bright.black)
+            append(" => ")
+            
+            append(ANSI.reset)
+            append(event.formattedMessage)
+            append("\n\n")
+        }
     }
 }

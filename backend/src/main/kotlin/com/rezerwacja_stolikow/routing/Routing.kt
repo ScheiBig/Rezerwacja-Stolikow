@@ -2,6 +2,7 @@ package com.rezerwacja_stolikow.routing
 
 import com.rezerwacja_stolikow.errors.*
 import com.rezerwacja_stolikow.util.*
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.*
 import io.ktor.server.plugins.statuspages.*
@@ -26,6 +27,10 @@ fun Application.configureRouting() {
         /// 404 Not found
         exception<NoSuchElementException> { call, cause ->
             cause.notFound respondTo call
+        }
+        /// 405 Method not allowed
+        status(HttpStatusCode.NotFound) { call, _ ->
+            Throwable("Unrecognised URL or HTTP method").methodNotAllowed respondTo call
         }
         /// 408 Request timeout
         exception<LockTimeoutException> { call, cause ->

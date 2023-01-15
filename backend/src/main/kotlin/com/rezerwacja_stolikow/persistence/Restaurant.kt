@@ -78,9 +78,7 @@ object Restaurant {
         }
         
         fun toView() = View(
-            this.id.value,
-            this.name,
-            Timetable.View(
+            this.id.value, this.name, Timetable.View(
                 this.mondayOpen.toLocalTime() upTo this.mondayClose.toLocalTime(),
                 this.tuesdayOpen.toLocalTime() upTo this.tuesdayClose.toLocalTime(),
                 this.wednesdayOpen.toLocalTime() upTo this.wednesdayClose.toLocalTime(),
@@ -88,9 +86,7 @@ object Restaurant {
                 this.fridayOpen.toLocalTime() upTo this.fridayClose.toLocalTime(),
                 this.saturdayOpen.toLocalTime() upTo this.saturdayClose.toLocalTime(),
                 this.sundayOpen.toLocalTime() upTo this.sundayClose.toLocalTime()
-            ),
-            this.image,
-            this.map
+            ), this.image, this.map
         )
     }
     
@@ -102,4 +98,9 @@ object Restaurant {
         val image: String,
         val map: String
     )
+    
+    @Suppress("FunctionName", "SpellCheckingInspection")
+    fun NSEE(
+        restaurantID: Long
+    ) = NoSuchElementException("No such restaurant: $restaurantID")
 }
