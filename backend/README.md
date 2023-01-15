@@ -29,14 +29,14 @@ Launches the unit tests.
 
 #### Common errors:
 
-- `400 Bad request` - The request parameters might be missing,
-- `401 Unauthorized` - The endpoint requires the authentication token,
-- `403 Forbidden` - The endpoint contains the resource, which the token's user isn't owner of,
-- `404 Not found` - The request contains parameter pointing to the list of static data, but its value is not found,
-- `408 Request timeout` - The endpoint has locked some data via session-like token, and token timed-out,
-- `409 Conflict` - The endpoint should point to data, that is taken by someone else,
-- `422 Unprocessable entity` - The parameters provided to the request fail validation,
-- `423 Locked` - The endpoint should point to data, that is currently locked by (reserved for) someone else.
+- `400 Bad request` — The request parameters might be missing,
+- `401 Unauthorized` — The endpoint requires the authentication token,
+- `403 Forbidden` — The endpoint contains the resource, which the token's user isn't owner of,
+- `404 Not found` — The request contains parameter pointing to the list of static data, but its value is not found,
+- `408 Request timeout` — The endpoint has locked some data via session-like token, and token timed-out,
+- `409 Conflict` — The endpoint should point to data, that is taken by someone else,
+- `422 Unprocessable entity` — The parameters provided to the request fail validation,
+- `423 Locked` — The endpoint should point to data, that is currently locked by (reserved for) someone else.
 
 ---
 
@@ -66,15 +66,23 @@ Launches the unit tests.
   where `NumberEncodedTime` for 21:37 will be `2137`.
   <!-- `number` property is guaranteed to be unique and thus can be used as `key`. -->
 
-### [`⚓/dining_tables/search`](http://localhost:42069/dining_tables/search)
+### [`⚓/dining_tables/search/{restaurant_ID}`](http://localhost:42069/dining_tables/search)
 
 ###### Finds list of dining tables matching criteria
 
-#### Query parameters:
-- `restaurantId: Integer` - `number` property of restaurant,
-- `byWindow: Boolean?` - if table should be directly by window - if not specified filtering is skipped,
-- `outside: Boolean?` - if table should be located outside of building - if not specified filtering is skipped,
-- `smokingAllowed: Boolean?` - if table is in smoking-allowed zone - if not specified filtering is skipped.
+#### URL parameters:
+- `restaurantId: Integer` — `number` property of restaurant.
+
+#### Request body:
+
+ - ```ts
+   {
+      byWindow: Boolean?,
+      outside: Boolean?,
+      smokingAllowed: Boolean?,
+   }?
+   ```
+   filters response based on present fields.
 
 #### Responses:
 
@@ -97,7 +105,7 @@ Launches the unit tests.
     }, …
   ]
   ```
-  empty array migth be returned if none are found.\
+  empty array might be returned if none are found.\
   Combination of `restaurantID` and `number` properties is guaranteed to be unique for each object and thus
   can be used as `key`.
 - `400 Bad request`: `restaurantId` is missing

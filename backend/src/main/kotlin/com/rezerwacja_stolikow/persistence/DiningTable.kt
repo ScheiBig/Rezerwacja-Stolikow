@@ -79,6 +79,16 @@ object DiningTable {
             this.chairs,
             MapLocation.View(this.mapLocationX, this.mapLocationY, this.mapLocationW, this.mapLocationH)
         )
+        
+        fun toSimpleView() = transaction {
+            SimpleView(
+                this@Entity.restaurant.id.value,
+                this@Entity.number,
+                this@Entity.byWindow,
+                this@Entity.outside,
+                this@Entity.smokingAllowed
+            )
+        }
     }
     
     @Serializable
@@ -129,4 +139,10 @@ object DiningTable {
         override val outside: Boolean? = null,
         override val smokingAllowed: Boolean? = null
     ): SimpleViewModeling
+    
+    @Suppress("FunctionName", "SpellCheckingInspection")
+    fun NSEE(
+        restaurantID: Long,
+        number: Int
+    ) = NoSuchElementException("No such dining table: $number in restaurant $restaurantID")
 }
