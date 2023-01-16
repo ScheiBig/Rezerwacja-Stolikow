@@ -98,22 +98,3 @@ object Reservation {
         val removalToken: String? = null
     )
 }
-
-object Person {
-    @Serializable
-    data class View(
-        val firstName: String,
-        val lastName: String,
-        @Serializable(with = PhoneNumberSerializer::class) val phoneNumber: String
-    )
-}
-
-@Deprecated("Removing custom format")
-object DateTime {
-    @Deprecated("Removing custom format", replaceWith = ReplaceWith("LocalDateTime", "kotlinx.datetime.LocalDateTime"))
-    @Serializable
-    data class View(
-        val date: String,
-        val time: String
-    )
-}
