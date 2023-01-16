@@ -1,5 +1,6 @@
 package com.rezerwacja_stolikow.persistence
 
+import com.rezerwacja_stolikow.util.ThrowableFactory
 import kotlinx.datetime.toLocalTime
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.LongEntity
@@ -98,9 +99,4 @@ object Restaurant {
         val image: String,
         val map: String
     )
-    
-    @Suppress("FunctionName", "SpellCheckingInspection")
-    fun NSEE(
-        restaurantID: Long
-    ) = NoSuchElementException("No such restaurant: $restaurantID")
 }

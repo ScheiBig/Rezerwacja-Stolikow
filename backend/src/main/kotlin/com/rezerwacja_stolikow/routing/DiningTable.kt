@@ -1,5 +1,6 @@
 package com.rezerwacja_stolikow.routing
 
+import com.rezerwacja_stolikow.errors.NSEE
 import com.rezerwacja_stolikow.persistence.DiningTable
 import com.rezerwacja_stolikow.persistence.Restaurant
 import com.rezerwacja_stolikow.util.invoke

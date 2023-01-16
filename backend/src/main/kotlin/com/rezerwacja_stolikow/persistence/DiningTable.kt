@@ -140,10 +140,4 @@ object DiningTable {
         override val outside: Boolean? = null,
         override val smokingAllowed: Boolean? = null
     ): SimpleViewModeling
-    
-    @Suppress("FunctionName", "SpellCheckingInspection")
-    fun NSEE(
-        restaurantID: Long,
-        number: Int
-    ) = NoSuchElementException("No such dining table: $number in restaurant $restaurantID")
 }

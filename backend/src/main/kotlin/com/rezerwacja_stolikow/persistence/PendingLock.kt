@@ -1,6 +1,6 @@
 package com.rezerwacja_stolikow.persistence
 
-import com.rezerwacja_stolikow.errors.DataLockedException
+import com.rezerwacja_stolikow.errors.NSEE
 import com.rezerwacja_stolikow.util.fromEpochMilliseconds
 import com.rezerwacja_stolikow.util.toEpochMilliseconds
 import kotlinx.datetime.Clock
@@ -93,22 +93,5 @@ object PendingLock {
         val diningTable: DiningTable.SimpleViewModeling,
         val bounds: DurationDate.AltView,
         val expirationDateTime: LocalDateTime? = null
-    )
-    
-    @Suppress("FunctionName")
-    fun DLE(
-        restaurantID: Long,
-        number: Int
-    ) = DataLockedException("Dining table already locked: $number in restaurant $restaurantID")
-    
-    
-    @Suppress("FunctionName", "SpellCheckingInspection")
-    fun NSEE(
-        restaurantID: Long,
-        number: Int,
-        from: LocalDateTime,
-        duration: Duration
-    ) = NoSuchElementException(
-        "No such lock on dining table: $number in restaurant $restaurantID, $duration from $from"
     )
 }

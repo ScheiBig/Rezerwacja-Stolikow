@@ -5,6 +5,9 @@ package com.rezerwacja_stolikow.plugins
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTCreator
 import com.auth0.jwt.algorithms.Algorithm
+import com.rezerwacja_stolikow.errors.AuthenticationException
+import com.rezerwacja_stolikow.errors.AuthorizationException
+import com.rezerwacja_stolikow.util.ThrowableFactory
 import com.rezerwacja_stolikow.util.toEpochMilliseconds
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
@@ -14,6 +17,13 @@ import kotlin.time.Duration
 object Jwt {
     
     const val key = "jwt-authorization"
+    @Suppress("FunctionName")
+    @ThrowableFactory
+    fun AENone() = AuthenticationException("No payload!")
+    
+    @Suppress("FunctionName")
+    @ThrowableFactory
+    fun AEType() = AuthorizationException("Wrong token type")
     
     private var isInit = false
     
