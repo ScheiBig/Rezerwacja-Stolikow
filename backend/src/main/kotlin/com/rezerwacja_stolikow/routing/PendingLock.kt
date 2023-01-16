@@ -1,6 +1,5 @@
 package com.rezerwacja_stolikow.routing
 
-import com.rezerwacja_stolikow.errors.AuthenticationException
 import com.rezerwacja_stolikow.errors.AuthorizationException
 import com.rezerwacja_stolikow.errors.DLE
 import com.rezerwacja_stolikow.errors.NSEE
@@ -20,9 +19,8 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
-private const val LOCK = "lock"
-private const val DINING_TABLE = "diningTable"
-private const val BOUNDS = "bounds"
+const val DINING_TABLE = "diningTable"
+const val BOUNDS = "bounds"
 
 fun Routing.pendingLockRoutes() {
     route("dining_tables" / "lock") {
@@ -46,13 +44,13 @@ fun Routing.pendingLockRoutes() {
                 PendingLock.Entity.fromView(lock.copy(expirationDateTime = expiration))
             }
             Jwt.create(expiration) {
-                withSubject(LOCK)
+                withSubject(Jwt.Subjects.LOCK)
                     .withClaim(DINING_TABLE, Json.encodeToString(diningTable.toSimpleView()))
                     .withClaim(BOUNDS, Json.encodeToString(lock.bounds))
             }.ok respondTo this.call
         }
         
-        authenticate(Jwt.key) {
+        authenticate(Jwt.KEY) {
             delete {
                 val principal = this.call.principal<JWTPrincipal>() ?: throw Jwt.AENone()
                 if (principal.subject != Jwt.Subjects.LOCK) throw Jwt.AEType()

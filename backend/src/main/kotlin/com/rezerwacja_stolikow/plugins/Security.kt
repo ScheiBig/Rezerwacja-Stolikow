@@ -10,7 +10,7 @@ fun Application.configureSecurity() {
     initJwt(this)
     
     authentication {
-        jwt(Jwt.key) {
+        jwt(Jwt.KEY) {
             
             this.realm = Jwt.realm
             verifier(

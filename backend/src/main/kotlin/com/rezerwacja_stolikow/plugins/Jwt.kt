@@ -16,7 +16,8 @@ import kotlin.time.Duration
 
 object Jwt {
     
-    const val key = "jwt-authorization"
+    const val KEY = "jwt-authorization"
+    
     @Suppress("FunctionName")
     @ThrowableFactory
     fun AENone() = AuthenticationException("No payload!")
@@ -24,6 +25,11 @@ object Jwt {
     @Suppress("FunctionName")
     @ThrowableFactory
     fun AEType() = AuthorizationException("Wrong token type")
+    
+    object Subjects {
+        const val LOCK = "lock"
+        const val CANCEL = "cancel"
+    }
     
     private var isInit = false
     
