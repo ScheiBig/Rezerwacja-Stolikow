@@ -19,6 +19,8 @@ as "⚓").
 
 For the list of available endpoints, their inputs and outputs schemas, and side effects, see the next section below.
 
+Adding `--args='-P:shouldPurge=true'` will reset persistence for PendingLocks and Reservations.
+
 ### `gradle test` 🚧 Maybe someday
 
 Launches the unit tests.

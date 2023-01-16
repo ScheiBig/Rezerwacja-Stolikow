@@ -7,6 +7,7 @@ import com.rezerwacja_stolikow.persistence.PendingLock
 import com.rezerwacja_stolikow.persistence.Reservation
 import com.rezerwacja_stolikow.persistence.Restaurant
 import com.rezerwacja_stolikow.util.resource
+import io.ktor.server.application.*
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
@@ -22,11 +23,15 @@ object DatabaseFactory {
         driverClass: String,
         databaseURL: String,
         username: String = "",
-        password: String = ""
+        password: String = "",
+        shouldPurge: Boolean
     ) {
         database = Database.connect(databaseURL, driverClass, username, password)
         transaction(database) {
-            SchemaUtils.drop(Restaurant.Table, DiningTable.Table, PendingLock.Table, Reservation.Table)
+            SchemaUtils.drop(Restaurant.Table, DiningTable.Table)
+            if (shouldPurge) {
+                SchemaUtils.drop(PendingLock.Table, Reservation.Table)
+            }
             SchemaUtils.create(Restaurant.Table, DiningTable.Table, PendingLock.Table, Reservation.Table)
             
             val restaurantsFile = File(resource("data/Restaurants.json"))
@@ -49,4 +54,24 @@ object DatabaseFactory {
                 }
         }
     }
+}
+
+fun Application.configurePersistence() {
+    val driverClass = environment.config
+        .property("database.driver")
+        .getString()
+    val databaseURL = environment.config
+        .property("database.url")
+        .getString()
+    val username = environment.config
+        .propertyOrNull("database.username")
+        ?.getString() ?: ""
+    val password = environment.config
+        .propertyOrNull("database.password")
+        ?.getString() ?: ""
+    val shouldPurge = environment.config
+        .propertyOrNull("shouldPurge")
+        ?.getString()
+        .toBoolean()
+    DatabaseFactory.init(driverClass, databaseURL, username, password, shouldPurge)
 }
