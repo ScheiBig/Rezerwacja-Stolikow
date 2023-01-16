@@ -19,7 +19,7 @@ object Reservation {
     object Table: LongIdTable("reservation") {
         val personFirstName = varchar("person__first_name", 16)
         val personLastName = varchar("person__last_name", 40)
-        val personPhoneNumber = varchar("person__last_name", 12)
+        val personPhoneNumber = varchar("person__phone_number", 12)
         val diningTableRestaurantID = long("dining_table__restaurant_id")
         val diningTableNumber = integer("dining_table__number")
         

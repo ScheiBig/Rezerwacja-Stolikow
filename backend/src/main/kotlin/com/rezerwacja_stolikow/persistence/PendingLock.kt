@@ -1,7 +1,9 @@
 package com.rezerwacja_stolikow.persistence
 
+import com.rezerwacja_stolikow.errors.DataLockedException
 import com.rezerwacja_stolikow.util.fromEpochMilliseconds
 import com.rezerwacja_stolikow.util.toEpochMilliseconds
+import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.LongEntity
@@ -12,6 +14,7 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.greater
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.less
 import org.jetbrains.exposed.sql.and
+import kotlin.time.Duration
 
 object PendingLock {
     object Table: LongIdTable("pending_lock") {
@@ -33,9 +36,7 @@ object PendingLock {
         private var diningTableNumber by Table.diningTableNumber
         var diningTable
             get() = DiningTable.Entity.findByForeign(diningTableRestaurantID, diningTableNumber)
-                ?: throw NoSuchElementException(
-                    "No such dining table: $diningTableNumber in restaurant $diningTableRestaurantID"
-                )
+                ?: throw DiningTable.NSEE(diningTableRestaurantID, diningTableNumber)
             set(value) {
                 diningTableRestaurantID = value.restaurant.id.value
                 diningTableNumber = value.number
@@ -48,16 +49,10 @@ object PendingLock {
             fun fromView(obj: View) = new {
                 this.diningTable =
                     DiningTable.Entity.findByForeign(obj.diningTable.restaurantID, obj.diningTable.number)
-                        ?: throw NoSuchElementException(
-                            "No such dining table: ${
-                                obj.diningTable.restaurantID
-                            } in restaurant ${
-                                obj.diningTable.number
-                            }"
-                        )
-                this.startDateTime = obj.startDateTime.toEpochMilliseconds()
-                this.endDateTime = obj.endDateTime.toEpochMilliseconds()
-                this.expirationDateTime = obj.expirationDateTime.toEpochMilliseconds()
+                        ?: throw throw DiningTable.NSEE(diningTableRestaurantID, diningTableNumber)
+                this.startDateTime = obj.bounds.from.toEpochMilliseconds()
+                this.endDateTime = obj.bounds.toView().to.toEpochMilliseconds()
+                this.expirationDateTime = obj.expirationDateTime!!.toEpochMilliseconds()
             }
             
             fun findConflictingLocks(
@@ -65,6 +60,12 @@ object PendingLock {
                 startDateTime: LocalDateTime,
                 endDateTime: LocalDateTime
             ) = (startDateTime.toEpochMilliseconds() to endDateTime.toEpochMilliseconds()).let { (s, e) ->
+                find(
+                    Table.expirationDateTime less Clock.System
+                        .now()
+                        .toEpochMilliseconds()
+                ).forEach(Entity::delete)
+                
                 find(
                     (Table.startDateTime less e)
                         .and(Table.endDateTime greater s)
@@ -76,8 +77,12 @@ object PendingLock {
         
         fun toView() = View(
             this.diningTable.toView(),
-            LocalDateTime.fromEpochMilliseconds(this.startDateTime),
-            LocalDateTime.fromEpochMilliseconds(this.endDateTime),
+            DurationDate
+                .View(
+                    LocalDateTime.fromEpochMilliseconds(this.startDateTime),
+                    LocalDateTime.fromEpochMilliseconds(this.endDateTime)
+                )
+                .toAltView(),
             LocalDateTime.fromEpochMilliseconds(this.expirationDateTime)
         
         )
@@ -86,8 +91,24 @@ object PendingLock {
     @Serializable
     data class View(
         val diningTable: DiningTable.SimpleViewModeling,
-        val startDateTime: LocalDateTime,
-        val endDateTime: LocalDateTime,
-        val expirationDateTime: LocalDateTime
+        val bounds: DurationDate.AltView,
+        val expirationDateTime: LocalDateTime? = null
+    )
+    
+    @Suppress("FunctionName")
+    fun DLE(
+        restaurantID: Long,
+        number: Int
+    ) = DataLockedException("Dining table already locked: $number in restaurant $restaurantID")
+    
+    
+    @Suppress("FunctionName", "SpellCheckingInspection")
+    fun NSEE(
+        restaurantID: Long,
+        number: Int,
+        from: LocalDateTime,
+        duration: Duration
+    ) = NoSuchElementException(
+        "No such lock on dining table: $number in restaurant $restaurantID, $duration from $from"
     )
 }
