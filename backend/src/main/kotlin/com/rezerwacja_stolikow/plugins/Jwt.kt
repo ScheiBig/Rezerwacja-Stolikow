@@ -7,7 +7,7 @@ import com.auth0.jwt.JWTCreator
 import com.auth0.jwt.algorithms.Algorithm
 import com.rezerwacja_stolikow.errors.AuthenticationException
 import com.rezerwacja_stolikow.errors.AuthorizationException
-import com.rezerwacja_stolikow.util.ThrowableFactory
+import com.rezerwacja_stolikow.errors.ThrowableFactory
 import com.rezerwacja_stolikow.util.toEpochMilliseconds
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
@@ -29,6 +29,12 @@ object Jwt {
     object Subjects {
         const val LOCK = "lock"
         const val CANCEL = "cancel"
+    }
+    
+    object Claims {
+        const val DINING_TABLE = "diningTable"
+        const val BOUNDS = "bounds"
+        const val CLIENT = "client"
     }
     
     private var isInit = false

@@ -1,9 +1,12 @@
 package com.rezerwacja_stolikow.routing
 
-import com.rezerwacja_stolikow.errors.AuthorizationException
 import com.rezerwacja_stolikow.errors.DLE
+import com.rezerwacja_stolikow.errors.DTE
 import com.rezerwacja_stolikow.errors.NSEE
-import com.rezerwacja_stolikow.persistence.*
+import com.rezerwacja_stolikow.persistence.DiningTable
+import com.rezerwacja_stolikow.persistence.DurationDate
+import com.rezerwacja_stolikow.persistence.PendingLock
+import com.rezerwacja_stolikow.persistence.Reservation
 import com.rezerwacja_stolikow.plugins.Jwt
 import com.rezerwacja_stolikow.util.*
 import io.ktor.server.application.*
@@ -19,8 +22,6 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
-const val DINING_TABLE = "diningTable"
-const val BOUNDS = "bounds"
 
 fun Routing.pendingLockRoutes() {
     route("dining_tables" / "lock") {
@@ -45,8 +46,8 @@ fun Routing.pendingLockRoutes() {
             }
             Jwt.create(expiration) {
                 withSubject(Jwt.Subjects.LOCK)
-                    .withClaim(DINING_TABLE, Json.encodeToString(diningTable.toSimpleView()))
-                    .withClaim(BOUNDS, Json.encodeToString(lock.bounds))
+                    .withClaim(Jwt.Claims.DINING_TABLE, Json.encodeToString(diningTable.toSimpleView()))
+                    .withClaim(Jwt.Claims.BOUNDS, Json.encodeToString(lock.bounds))
             }.ok respondTo this.call
         }
         
@@ -54,8 +55,8 @@ fun Routing.pendingLockRoutes() {
             delete {
                 val principal = this.call.principal<JWTPrincipal>() ?: throw Jwt.AENone()
                 if (principal.subject != Jwt.Subjects.LOCK) throw Jwt.AEType()
-                val diningTable = Json.decodeFromString<DiningTable.SimpleView>(principal[DINING_TABLE]!!)
-                val bounds = Json.decodeFromString<DurationDate.AltView>(principal[BOUNDS]!!)
+                val diningTable = Json.decodeFromString<DiningTable.SimpleView>(principal[Jwt.Claims.DINING_TABLE]!!)
+                val bounds = Json.decodeFromString<DurationDate.AltView>(principal[Jwt.Claims.BOUNDS]!!)
                 transaction {
                     val locks = PendingLock.Entity.find {
                         (PendingLock.Table.diningTableRestaurantID eq diningTable.restaurantID)
