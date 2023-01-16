@@ -69,7 +69,7 @@ fun Routing.reservationRoutes() {
                     )
                     val count = reservations.count()
                     reservations.forEach(Reservation.Entity::delete)
-                    "Unlocked $count reservations"
+                    if (count == 1L) "Cancelled 1 reservation" else "Cancelled $count reservations"
                 }.accepted respondTo this.call
             }
         }

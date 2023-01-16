@@ -76,7 +76,7 @@ fun Routing.pendingLockRoutes() {
                     )
                     val count = locks.count()
                     locks.forEach(PendingLock.Entity::delete)
-                    "Unlocked $count reservations"
+                    if (count == 1L) "Unlocked 1 reservation" else "Unlocked $count reservations"
                 }.accepted respondTo this.call
             }
         }
