@@ -7,8 +7,8 @@ Web app for restaurant table reservations.
 - [📑 Use cases](https://docs.google.com/document/d/1lSdsnhLY0xpC9K22RUwh990_MUlLIbOty8h7NDbIgW0/edit?usp=sharing) (Google Doc)
 
 #### For the used technologies consult
-- [🗄️ backend](backend/README.md)
-- [💻 frontend](frontend/README.md)
+- [📟 backend](backend/README.md)
+- [📱 frontend](frontend/README.md)
 
 #### For the REST API documentation consult
 - [🛰️ API](backend/README.md) (last section)

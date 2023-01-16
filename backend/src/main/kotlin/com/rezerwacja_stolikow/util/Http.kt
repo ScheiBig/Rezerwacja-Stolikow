@@ -111,6 +111,9 @@ suspend inline infix fun <reified T: Any> HttpResponse<T>.respondTo(
 @HttpResponseWrapperDsl val Throwable.gone: HttpResponse<Any>
     get() = HttpResponse(HttpStatusCode.Gone, this.message ?: this::class.qualifiedName ?: "")
 
+@HttpResponseWrapperDsl val Throwable.preconditionFailed: HttpResponse<Any>
+    get() = HttpResponse(HttpStatusCode.PreconditionFailed, this.message ?: this::class.qualifiedName ?: "")
+
 @Suppress("SpellCheckingInspection") @HttpResponseWrapperDsl val Throwable.unprocessableEntity: HttpResponse<Any>
     get() = HttpResponse(HttpStatusCode.UnprocessableEntity, this.message ?: this::class.qualifiedName ?: "")
 
