@@ -14,7 +14,6 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.greater
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.less
 import org.jetbrains.exposed.sql.and
-import kotlin.time.Duration
 
 object PendingLock {
     object Table: LongIdTable("pending_lock") {
@@ -57,9 +56,8 @@ object PendingLock {
             
             fun findConflictingLocks(
                 diningTable: DiningTable.Entity,
-                startDateTime: LocalDateTime,
-                endDateTime: LocalDateTime
-            ) = (startDateTime.toEpochMilliseconds() to endDateTime.toEpochMilliseconds()).let { (s, e) ->
+                bounds: DurationDate.AltView
+            ) = (bounds.from.toEpochMilliseconds() to bounds.toView().to.toEpochMilliseconds()).let { (s, e) ->
                 find(
                     Table.expirationDateTime less Clock.System
                         .now()

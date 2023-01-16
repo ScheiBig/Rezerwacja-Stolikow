@@ -1,6 +1,5 @@
 package com.rezerwacja_stolikow.persistence
 
-import com.rezerwacja_stolikow.serialization.PhoneNumberSerializer
 import com.rezerwacja_stolikow.util.fromEpochMilliseconds
 import com.rezerwacja_stolikow.util.toEpochMilliseconds
 import kotlinx.datetime.LocalDateTime
@@ -63,15 +62,14 @@ object Reservation {
                                 obj.diningTable.number
                             }"
                         )
-                this.startDateTime = obj.startDateTime.toEpochMilliseconds()
-                this.endDateTime = obj.endDateTime.toEpochMilliseconds()
+                this.startDateTime = obj.bounds.from.toEpochMilliseconds()
+                this.endDateTime = obj.bounds.toView().to.toEpochMilliseconds()
             }
             
             fun findConflictingReservations(
                 diningTable: DiningTable.Entity,
-                startDateTime: LocalDateTime,
-                endDateTime: LocalDateTime
-            ) = (startDateTime.toEpochMilliseconds() to endDateTime.toEpochMilliseconds()).let { (s, e) ->
+                bounds: DurationDate.AltView
+            ) = (bounds.from.toEpochMilliseconds() to bounds.toView().to.toEpochMilliseconds()).let { (s, e) ->
                 find(
                     (Table.startDateTime less e)
                         .and(Table.endDateTime greater s)
@@ -84,8 +82,12 @@ object Reservation {
         fun toView() = View(
             Person.View(this.personFirstName, this.personLastName, this.personPhoneNumber),
             this.diningTable.toView(),
-            LocalDateTime.fromEpochMilliseconds(this.startDateTime),
-            LocalDateTime.fromEpochMilliseconds(this.endDateTime)
+            DurationDate
+                .View(
+                    LocalDateTime.fromEpochMilliseconds(this.startDateTime),
+                    LocalDateTime.fromEpochMilliseconds(this.endDateTime)
+                )
+                .toAltView()
         )
     }
     
@@ -93,8 +95,7 @@ object Reservation {
     data class View(
         val personDetails: Person.View,
         val diningTable: DiningTable.SimpleViewModeling,
-        val startDateTime: LocalDateTime,
-        val endDateTime: LocalDateTime,
+        val bounds: DurationDate.AltView,
         val removalToken: String? = null
     )
 }

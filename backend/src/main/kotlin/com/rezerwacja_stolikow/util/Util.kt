@@ -14,3 +14,5 @@ fun resource(path: String) = """src\main\resources\$path"""
  * @throws MissingRequestParameterException if no values associated with this [name]
  */
 operator fun Parameters.invoke(name: String) = this.getOrFail(name)
+
+operator fun String.div(child: String) = "$this/$child"

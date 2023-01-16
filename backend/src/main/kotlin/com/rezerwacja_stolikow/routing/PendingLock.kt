@@ -25,7 +25,7 @@ private const val DINING_TABLE = "diningTable"
 private const val BOUNDS = "bounds"
 
 fun Routing.pendingLockRoutes() {
-    route("dining_tables/lock") {
+    route("dining_tables" / "lock") {
         put {
             val lock = this.call.receiveOptional<PendingLock.View>()
                 ?: throw IllegalArgumentException("Lock details are missing")
@@ -37,7 +37,7 @@ fun Routing.pendingLockRoutes() {
             
             transaction {
                 if (PendingLock.Entity
-                        .findConflictingLocks(diningTable, lock.bounds.from, lock.bounds.toView().to)
+                        .findConflictingLocks(diningTable, lock.bounds)
                         .empty()
                         .not()
                 ) {
