@@ -2,6 +2,7 @@ package com.rezerwacja_stolikow.routing
 
 import com.rezerwacja_stolikow.errors.DLE
 import com.rezerwacja_stolikow.errors.DTE
+import com.rezerwacja_stolikow.errors.DataSpoiledException
 import com.rezerwacja_stolikow.errors.NSEE
 import com.rezerwacja_stolikow.persistence.DiningTable
 import com.rezerwacja_stolikow.persistence.DurationDate
@@ -28,6 +29,9 @@ fun Routing.pendingLockRoutes() {
         put {
             val lock = this.call.receiveOptional<PendingLock.View>()
                 ?: throw IllegalArgumentException("Lock details are missing")
+            if (lock.bounds.from.toEpochMilliseconds() < LocalDateTime.now.toEpochMilliseconds()) {
+                throw DataSpoiledException("Reservation time has already passed")
+            }
             val diningTable =
                 transaction { DiningTable.Entity.findByForeign(lock.diningTable.restaurantID, lock.diningTable.number) }
                     ?: throw DiningTable.NSEE(lock.diningTable.restaurantID, lock.diningTable.number)

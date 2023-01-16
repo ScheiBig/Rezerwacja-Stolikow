@@ -40,6 +40,10 @@ fun Application.configureRouting() {
         exception<DataTakenException> { call, cause ->
             cause.conflict respondTo call
         }
+        /// 410 Gone
+        exception<DataSpoiledException> { call, cause ->
+            cause.gone respondTo call
+        }
         /// 412 Precondition failed
         exception<NullPointerException> { call, cause ->
             cause.preconditionFailed respondTo call

@@ -1,5 +1,6 @@
 package com.rezerwacja_stolikow.routing
 
+import com.rezerwacja_stolikow.errors.DataSpoiledException
 import com.rezerwacja_stolikow.errors.NSEE
 import com.rezerwacja_stolikow.persistence.*
 import com.rezerwacja_stolikow.plugins.Jwt
@@ -17,13 +18,16 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.time.Duration.Companion.minutes
 
 fun Routing.reservationRoutes() {
-    route("dining_tables" / "reserve") {
+    route("dining_tables" / "reservation") {
         authenticate(Jwt.KEY) {
             put {
                 val principal = this.call.principal<JWTPrincipal>() ?: throw Jwt.AENone()
                 if (principal.subject != Jwt.Subjects.LOCK) throw Jwt.AEType()
                 val diningTable = Json.decodeFromString<DiningTable.SimpleView>(principal[Jwt.Claims.DINING_TABLE]!!)
                 val bounds = Json.decodeFromString<DurationDate.AltView>(principal[Jwt.Claims.BOUNDS]!!)
+                if (bounds.from.toEpochMilliseconds() < LocalDateTime.now.toEpochMilliseconds()) {
+                    throw DataSpoiledException("Reservation time has already passed")
+                }
                 val personDetails = this.call.receiveOptional<Person.View>()
                     ?: throw IllegalArgumentException("Person details are missing")
                 transaction {
