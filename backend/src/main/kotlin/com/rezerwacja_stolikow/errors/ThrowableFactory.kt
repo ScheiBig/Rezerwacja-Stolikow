@@ -50,3 +50,15 @@ fun Reservation.DTE(
         bounds.durationS.seconds
     } from ${bounds.from}"
 )
+
+@ThrowableFactory
+fun Reservation.NSEE(
+    restaurantID: Long,
+    number: Int,
+    bounds: DurationDate.AltView,
+    personDetails: Person.View
+) = NoSuchElementException(
+    "No such reservation for dining table: $number in restaurant $restaurantID, ${bounds.durationS.seconds} from ${
+        bounds.from
+    }, by ${personDetails.firstName} ${personDetails.lastName} (#${personDetails.phoneNumber})"
+)
