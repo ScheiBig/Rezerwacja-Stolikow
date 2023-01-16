@@ -42,12 +42,19 @@ fun Routing.pendingLockRoutes() {
                 ) {
                     throw PendingLock.DLE(diningTable.restaurant.id.value, diningTable.number, lock.bounds)
                 }
+                if (Reservation.Entity
+                        .findConflictingReservations(diningTable, lock.bounds)
+                        .empty()
+                        .not()
+                ) {
+                    throw Reservation.DTE(diningTable.restaurant.id.value, diningTable.number, lock.bounds)
+                }
                 PendingLock.Entity.fromView(lock.copy(expirationDateTime = expiration))
             }
             Jwt.create(expiration) {
                 withSubject(Jwt.Subjects.LOCK)
-                    .withClaim(Jwt.Claims.DINING_TABLE, Json.encodeToString(diningTable.toSimpleView()))
-                    .withClaim(Jwt.Claims.BOUNDS, Json.encodeToString(lock.bounds))
+                withClaim(Jwt.Claims.DINING_TABLE, Json.encodeToString(diningTable.toSimpleView()))
+                withClaim(Jwt.Claims.BOUNDS, Json.encodeToString(lock.bounds))
             }.ok respondTo this.call
         }
         

@@ -40,6 +40,10 @@ fun Application.configureRouting() {
         exception<DataTakenException> { call, cause ->
             cause.conflict respondTo call
         }
+        /// 412 Precondition failed
+        exception<NullPointerException> { call, cause ->
+            cause.preconditionFailed respondTo call
+        }
         /// 422 Unprocessable entity
         exception<NumberFormatException> { call, cause ->
             cause.unprocessableEntity respondTo call
@@ -60,6 +64,7 @@ fun Application.configureRouting() {
         diningTableRoutes()
         restaurantRoutes()
         pendingLockRoutes()
+        reservationRoutes()
         imageRoutes()
         hashingRoutes()
     }
