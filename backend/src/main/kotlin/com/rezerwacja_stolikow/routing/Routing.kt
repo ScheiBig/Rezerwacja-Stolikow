@@ -59,6 +59,7 @@ fun Application.configureRouting() {
         }
         diningTableRoutes()
         restaurantRoutes()
+        pendingLockRoutes()
         imageRoutes()
         hashingRoutes()
     }
