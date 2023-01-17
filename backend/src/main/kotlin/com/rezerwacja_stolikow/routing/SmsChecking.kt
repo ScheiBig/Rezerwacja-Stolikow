@@ -2,7 +2,6 @@ package com.rezerwacja_stolikow.routing
 
 import com.rezerwacja_stolikow.persistence.SmsCodes
 import com.rezerwacja_stolikow.plugins.Jwt
-import com.rezerwacja_stolikow.serialization.PhoneNumberSerializer
 import com.rezerwacja_stolikow.util.div
 import com.rezerwacja_stolikow.util.ok
 import com.rezerwacja_stolikow.util.receiveOptional
@@ -10,17 +9,9 @@ import com.rezerwacja_stolikow.util.respondTo
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.routing.*
-import kotlinx.serialization.Serializable
-import kotlin.time.Duration.Companion.minutes
-import kotlin.time.Duration.Companion.seconds
-
-@Serializable
-private data class PhoneNumber(
-    @Serializable(with = PhoneNumberSerializer::class) val phoneNumber: String
-)
 
 fun Routing.smsCheckingRoutes() {
-    route("sms_checking" / "reservation") {
+    route(SMS_CHECKING / RESERVATIONS) {
         post {
             val phoneNumber =
                 this.call.receiveOptional<PhoneNumber>() ?: throw IllegalArgumentException("PhoneNumber is missing")

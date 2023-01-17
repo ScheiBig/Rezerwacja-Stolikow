@@ -17,10 +17,9 @@ import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
 
-private const val FULL_HOUR_MS = 3600000L
 
 fun Routing.reservationRoutes() {
-    route("dining_tables" / "reservation") {
+    route(DINING_TABLES / RESERVATIONS) {
         authenticate(Jwt.KEY) {
             put {
                 val principal = this.call.principal<JWTPrincipal>() ?: throw Jwt.AENone()

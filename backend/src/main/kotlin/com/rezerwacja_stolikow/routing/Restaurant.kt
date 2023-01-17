@@ -8,7 +8,7 @@ import io.ktor.server.routing.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 fun Routing.restaurantRoutes() {
-    route("restaurants") {
+    route(RESTAURANTS) {
         get {
             transaction {
                 Restaurant.Entity

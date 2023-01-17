@@ -24,13 +24,13 @@ fun Routing.hashingRoutes() {
         
         get("encode") {
             val param = this.call.parameters
-            val id = param.getOrFail("id")
+            val id = param.getOrFail(ID)
             
             HashGenerator.encodeString(id).ok respondTo this.call
         }
         get("decode") {
             val param = this.call.parameters
-            val id = param.getOrFail("id")
+            val id = param.getOrFail(ID)
             
             HashGenerator.decodeString(id).ok respondTo this.call
         }

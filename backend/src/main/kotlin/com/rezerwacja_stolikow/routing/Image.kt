@@ -10,10 +10,10 @@ import java.io.File
 import com.rezerwacja_stolikow.util.resource as resourcePath
 
 fun Routing.imageRoutes() {
-    route("image") {
-        get("restaurant_thumb/{id?}") {
+    route(IMAGE) {
+        get("restaurant_thumb" / "{$ID}") {
             val param = this.call.parameters
-            val imageHash = param("id")
+            val imageHash = param(ID)
             val imageName = try {
                 HashGenerator.decodeString(imageHash)
             } catch (_: Exception) {
@@ -37,9 +37,9 @@ fun Routing.imageRoutes() {
             )
             this.call.respondFile(imageFile)
         }
-        get("restaurant_map/{id?}") {
+        get("restaurant_map" / "{$ID}") {
             val param = this.call.parameters
-            val imageHash = param("id")
+            val imageHash = param(ID)
             val imageName = try {
                 HashGenerator.decodeString(imageHash)
             } catch (_: Exception) {

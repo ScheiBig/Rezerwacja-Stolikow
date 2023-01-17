@@ -25,7 +25,7 @@ import kotlin.time.Duration.Companion.seconds
 
 
 fun Routing.pendingLockRoutes() {
-    route("dining_tables" / "lock") {
+    route(DINING_TABLES / LOCKS) {
         put {
             val lock = this.call.receiveOptional<PendingLock.View>()
                 ?: throw IllegalArgumentException("Lock details are missing")
@@ -85,5 +85,4 @@ fun Routing.pendingLockRoutes() {
             }
         }
     }
-    
 }
