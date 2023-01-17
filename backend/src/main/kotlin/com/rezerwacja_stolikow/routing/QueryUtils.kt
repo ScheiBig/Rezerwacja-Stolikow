@@ -13,6 +13,12 @@ data class DiningTableQuery(
 )
 
 @Serializable
+data class ReservationQuery(
+    val date: LocalDateTime,
+    val filter: DiningTableQuery? = null
+)
+
+@Serializable
 data class PhoneNumber(
     @Serializable(with = PhoneNumberSerializer::class) val phoneNumber: String
 )

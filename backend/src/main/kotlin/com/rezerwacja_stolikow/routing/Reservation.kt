@@ -14,8 +14,11 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.time.YearMonth
+import kotlin.time.Duration.Companion.seconds
 
 
 fun Routing.reservationRoutes() {
@@ -96,6 +99,63 @@ fun Routing.reservationRoutes() {
                         }
                 }.ok respondTo this.call
             }
+        }
+    }
+    
+    route(RESTAURANTS) {
+        get("{$RESTAURANT_ID}" / RESERVATIONS) {
+            val restaurantID = this.call
+                .parameters(RESTAURANT_ID)
+                .toLong()
+            val q = this.call.receiveOptional<ReservationQuery>()
+                ?: throw IllegalArgumentException("Query details are missing")
+            
+            if (transaction { Restaurant.Entity.findById(restaurantID) } == null) {
+                throw Restaurant.NSEE(restaurantID)
+            }
+            
+            val tableNumber = transaction {
+                DiningTable.Entity
+                    .find(DiningTable.Table.restaurant eq restaurantID)
+                    .count()
+            }
+            
+            val responseArray = Array(
+                YearMonth
+                    .of(q.date.year, q.date.month)
+                    .lengthOfMonth()
+            ) { 0L to tableNumber * 24 }
+            
+            transaction {
+                Reservation.Entity
+                    .find {
+                        (Reservation.Table.diningTableRestaurantID eq restaurantID)
+                            .and(
+                                Reservation.Table.startDateTime greater LocalDateTime(
+                                    q.date.year, q.date.month, 1, 0, 0
+                                ).toEpochMilliseconds()
+                            )
+                            .and(
+                                Reservation.Table.startDateTime less LocalDateTime(
+                                    q.date.year,
+                                    q.date.month,
+                                    YearMonth
+                                        .of(q.date.year, q.date.month)
+                                        .lengthOfMonth(),
+                                    23,
+                                    59
+                                ).toEpochMilliseconds()
+                            )
+                    }
+                    .map(Reservation.Entity::toView)
+                    .forEach { r ->
+                        responseArray[r.bounds.from.dayOfMonth] = responseArray[r.bounds.from.dayOfMonth].let {
+                            it.copy(first = it.first + r.bounds.durationS.seconds.inWholeHours)
+                        }
+                    }
+            }
+            
+            responseArray.map { (n, d) -> n.toFloat() / d }.ok respondTo this.call
         }
     }
 }
