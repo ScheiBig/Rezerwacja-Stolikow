@@ -17,6 +17,8 @@ import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.time.Duration.Companion.minutes
 
+private const val FULL_HOUR_MS = 3600000L
+
 fun Routing.reservationRoutes() {
     route("dining_tables" / "reservation") {
         authenticate(Jwt.KEY) {
@@ -24,7 +26,12 @@ fun Routing.reservationRoutes() {
                 val principal = this.call.principal<JWTPrincipal>() ?: throw Jwt.AENone()
                 if (principal.subject != Jwt.Subjects.LOCK) throw Jwt.AEType()
                 val diningTable = Json.decodeFromString<DiningTable.SimpleView>(principal[Jwt.Claims.DINING_TABLE]!!)
-                val bounds = Json.decodeFromString<DurationDate.AltView>(principal[Jwt.Claims.BOUNDS]!!)
+                var bounds = Json.decodeFromString<DurationDate.AltView>(principal[Jwt.Claims.BOUNDS]!!)
+                if (bounds.from.toEpochMilliseconds() % FULL_HOUR_MS != 0L) {
+                    bounds = bounds.copy(
+                        from = LocalDateTime.fromEpochMilliseconds(bounds.from.toEpochMilliseconds() / FULL_HOUR_MS)
+                    )
+                }
                 if (bounds.from.toEpochMilliseconds() < LocalDateTime.now.toEpochMilliseconds()) {
                     throw DataSpoiledException("Reservation time has already passed")
                 }

@@ -69,6 +69,7 @@ fun Application.configureRouting() {
         restaurantRoutes()
         pendingLockRoutes()
         reservationRoutes()
+        smsCheckingRoutes()
         imageRoutes()
         hashingRoutes()
     }

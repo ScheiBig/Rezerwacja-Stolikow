@@ -17,7 +17,12 @@ import kotlinx.serialization.json.Json
  * Receives content for this request, if one is available
  */
 suspend inline fun <reified T: Any> ApplicationCall.receiveOptional() =
-    if (this.request.contentType() == ContentType.Application.Json) Json.decodeFromString<T>(receiveText()) else null
+    if (this.request.contentType() == ContentType.Application.Json) try {
+        Json.decodeFromString<T>(receiveText())
+    } catch (_: Exception) {
+        receive()
+    } else null
+
 
 @DslMarker
 annotation class HttpResponseWrapperDsl

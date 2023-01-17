@@ -29,6 +29,7 @@ object Jwt {
     object Subjects {
         const val LOCK = "lock"
         const val CANCEL = "cancel"
+        const val ACCESS = "access"
     }
     
     object Claims {
