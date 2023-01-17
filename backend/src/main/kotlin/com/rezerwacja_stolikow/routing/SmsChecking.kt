@@ -12,7 +12,7 @@ import io.ktor.server.routing.*
 
 fun Routing.smsCheckingRoutes() {
     route(SMS_CHECKING / RESERVATIONS) {
-        post {
+        get {
             val phoneNumber =
                 this.call.receiveOptional<PhoneNumber>() ?: throw IllegalArgumentException("PhoneNumber is missing")
             
@@ -24,7 +24,7 @@ fun Routing.smsCheckingRoutes() {
         }
         
         
-        patch {
+        post {
             val decode = try {
                 SmsCodes.Memory.getLastCodeOwner(this.call
                     .receiveText()
@@ -34,7 +34,7 @@ fun Routing.smsCheckingRoutes() {
                 null
             } ?: throw Jwt.AEType()
             
-            Jwt.create(2.minutes + 5.seconds) {
+            Jwt.create {
                 withSubject(Jwt.Subjects.ACCESS)
                 withClaim(Jwt.Claims.PHONE_NUMBER, decode.toString())
             }.ok respondTo this.call

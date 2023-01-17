@@ -9,19 +9,6 @@ import io.ktor.server.util.*
 
 fun Routing.hashingRoutes() {
     route("test_hashing") {
-        get("encode/{id?}") {
-            val param = this.call.parameters
-            val id = param.getOrFail("id")
-            
-            HashGenerator.encodeString(id).ok respondTo this.call
-        }
-        get("decode/{id?}") {
-            val param = this.call.parameters
-            val id = param.getOrFail("id")
-            
-            HashGenerator.decodeString(id).ok respondTo this.call
-        }
-        
         get("encode") {
             val param = this.call.parameters
             val id = param.getOrFail(ID)

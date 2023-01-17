@@ -1,8 +1,11 @@
 package com.rezerwacja_stolikow.routing
 
 import com.rezerwacja_stolikow.HashGenerator
+import com.rezerwacja_stolikow.errors.NSEE
+import com.rezerwacja_stolikow.util.div
 import com.rezerwacja_stolikow.util.invoke
 import io.ktor.http.*
+import io.ktor.http.ContentType.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -17,16 +20,14 @@ fun Routing.imageRoutes() {
             val imageName = try {
                 HashGenerator.decodeString(imageHash)
             } catch (_: Exception) {
-                throw NoSuchElementException("No such image with id: $imageHash")
+                throw Image.NSEE(imageHash)
             }
             val imagePath = resourcePath(imageName)
             val imageFile = File(imagePath)
             if (!imageFile.exists() || imageName.isBlank() || !("""thumb/[0-9a-zA-Z]+\.jpg"""
                     .toRegex()
                     .matches(imageName))
-            ) {
-                throw NoSuchElementException("No such image with id: $imageHash")
-            }
+            ) throw Image.NSEE(imageHash)
             this.call.response.header(
                 HttpHeaders.ContentDisposition,
                 ContentDisposition.Attachment
@@ -43,16 +44,14 @@ fun Routing.imageRoutes() {
             val imageName = try {
                 HashGenerator.decodeString(imageHash)
             } catch (_: Exception) {
-                throw NoSuchElementException("No such image with id: $imageHash")
+                throw Image.NSEE(imageHash)
             }
             val imagePath = resourcePath(imageName)
             val imageFile = File(imagePath)
             if (!imageFile.exists() || imageName.isBlank() || !("""map/[0-9a-zA-Z]+\.svg"""
                     .toRegex()
                     .matches(imageName))
-            ) {
-                throw NoSuchElementException("No such image with id: $imageHash")
-            }
+            ) throw Image.NSEE(imageHash)
             this.call.response.header(
                 HttpHeaders.ContentDisposition,
                 ContentDisposition.Attachment

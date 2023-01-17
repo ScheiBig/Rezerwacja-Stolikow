@@ -3,6 +3,7 @@
 package com.rezerwacja_stolikow.errors
 
 import com.rezerwacja_stolikow.persistence.*
+import io.ktor.http.*
 import kotlin.time.Duration.Companion.seconds
 
 @DslMarker
@@ -62,3 +63,8 @@ fun Reservation.NSEE(
         bounds.from
     }, by ${personDetails.firstName} ${personDetails.lastName} (#${personDetails.phoneNumber})"
 )
+
+@ThrowableFactory
+fun ContentType.Image.NSEE(
+    ID: String
+) = NoSuchElementException("No such image with id: $ID")
