@@ -27,8 +27,15 @@ import kotlin.time.Duration.Companion.seconds
 fun Routing.pendingLockRoutes() {
     route(DINING_TABLES / LOCKS) {
         put {
-            val lock = this.call.receiveOptional<PendingLock.View>()
+            var lock = this.call.receiveOptional<PendingLock.View>()
                 ?: throw IllegalArgumentException("Lock details are missing")
+            if (lock.bounds.from.toEpochMilliseconds() % FULL_HOUR_MS != 0L) {
+                lock = lock.copy(
+                    bounds = lock.bounds.copy(
+                        from = LocalDateTime.fromEpochMilliseconds(lock.bounds.from.toEpochMilliseconds() / FULL_HOUR_MS * FULL_HOUR_MS)
+                    )
+                )
+            }
             if (lock.bounds.from.toEpochMilliseconds() < LocalDateTime.now.toEpochMilliseconds()) {
                 throw DataSpoiledException("Reservation time has already passed")
             }

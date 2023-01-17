@@ -25,12 +25,7 @@ fun Routing.reservationRoutes() {
                 val principal = this.call.principal<JWTPrincipal>() ?: throw Jwt.AENone()
                 if (principal.subject != Jwt.Subjects.LOCK) throw Jwt.AEType()
                 val diningTable = Json.decodeFromString<DiningTable.SimpleView>(principal[Jwt.Claims.DINING_TABLE]!!)
-                var bounds = Json.decodeFromString<DurationDate.AltView>(principal[Jwt.Claims.BOUNDS]!!)
-                if (bounds.from.toEpochMilliseconds() % FULL_HOUR_MS != 0L) {
-                    bounds = bounds.copy(
-                        from = LocalDateTime.fromEpochMilliseconds(bounds.from.toEpochMilliseconds() / FULL_HOUR_MS)
-                    )
-                }
+                val bounds = Json.decodeFromString<DurationDate.AltView>(principal[Jwt.Claims.BOUNDS]!!)
                 if (bounds.from.toEpochMilliseconds() < LocalDateTime.now.toEpochMilliseconds()) {
                     throw DataSpoiledException("Reservation time has already passed")
                 }
