@@ -13,6 +13,8 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
 import java.util.*
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 object Jwt {
     
@@ -33,6 +35,7 @@ object Jwt {
     }
     
     object Claims {
+        const val PHONE_NUMBER = "phoneNumber"
         const val DINING_TABLE = "diningTable"
         const val BOUNDS = "bounds"
         const val CLIENT = "client"
@@ -73,7 +76,7 @@ object Jwt {
     }
     
     fun create(
-        lifetime: Duration,
+        lifetime: Duration = 2.minutes + 5.seconds,
         configuration: JWTCreator.Builder.() -> Unit
     ) = JWT
         .create()

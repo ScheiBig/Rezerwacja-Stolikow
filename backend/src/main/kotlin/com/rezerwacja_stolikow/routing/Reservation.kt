@@ -5,6 +5,7 @@ import com.rezerwacja_stolikow.errors.NSEE
 import com.rezerwacja_stolikow.persistence.*
 import com.rezerwacja_stolikow.plugins.Jwt
 import com.rezerwacja_stolikow.util.*
+import com.rezerwacja_stolikow.validation.PhoneNumber
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
@@ -15,7 +16,6 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
-import kotlin.time.Duration.Companion.minutes
 
 private const val FULL_HOUR_MS = 3600000L
 
@@ -50,7 +50,7 @@ fun Routing.reservationRoutes() {
                     Reservation.Entity
                         .fromView(Reservation.View(personDetails, diningTable, bounds))
                         .toView()
-                        .copy(removalToken = Jwt.create(LocalDateTime.now + 2.minutes) {
+                        .copy(removalToken = Jwt.create {
                             withSubject(Jwt.Subjects.CANCEL)
                             withClaim(Jwt.Claims.DINING_TABLE, Json.encodeToString(diningTable))
                             withClaim(Jwt.Claims.BOUNDS, Json.encodeToString(bounds))
@@ -82,6 +82,25 @@ fun Routing.reservationRoutes() {
                     reservations.forEach(Reservation.Entity::delete)
                     if (count == 1L) "Cancelled 1 reservation" else "Cancelled $count reservations"
                 }.accepted respondTo this.call
+            }
+            
+            get {
+                val principal = this.call.principal<JWTPrincipal>() ?: throw Jwt.AENone()
+                if (principal.subject != Jwt.Subjects.ACCESS) throw Jwt.AEType()
+                val phoneNumber = principal[Jwt.Claims.PHONE_NUMBER]!!.toLong()
+                transaction {
+                    Reservation.Entity
+                        .find { Reservation.Table.personPhoneNumber eq PhoneNumber.toString(phoneNumber) }
+                        .map(Reservation.Entity::toView)
+                        .map {
+                            it.copy(removalToken = Jwt.create {
+                                withSubject(Jwt.Subjects.CANCEL)
+                                withClaim(Jwt.Claims.DINING_TABLE, Json.encodeToString(it.diningTable))
+                                withClaim(Jwt.Claims.BOUNDS, Json.encodeToString(it.bounds))
+                                withClaim(Jwt.Claims.CLIENT, Json.encodeToString(it.personDetails))
+                            })
+                        }
+                }.ok respondTo this.call
             }
         }
     }

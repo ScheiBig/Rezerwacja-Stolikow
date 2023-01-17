@@ -11,10 +11,6 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.routing.*
 import kotlinx.serialization.Serializable
-import kotlin.Exception
-import kotlin.IllegalArgumentException
-import kotlin.String
-import kotlin.let
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
@@ -49,7 +45,7 @@ fun Routing.smsCheckingRoutes() {
             
             Jwt.create(2.minutes + 5.seconds) {
                 withSubject(Jwt.Subjects.ACCESS)
-                withClaim("phoneNumber", decode)
+                withClaim(Jwt.Claims.PHONE_NUMBER, decode.toString())
             }.ok respondTo this.call
         }
     }
