@@ -187,7 +187,7 @@ filters response based on present fields.
 #### Responses:
 
 - `200 OK`: 6-digit, random code that expires after 2 minutes.
-- `422 Unprocessable entity`: : body is missing or malformed, or `phoneNumber` doesn't represent valid 9-digit polish phone number.
+- `422 Unprocessable entity`: body is missing or malformed, or `phoneNumber` doesn't represent valid 9-digit polish phone number.
 
 
 
@@ -328,9 +328,50 @@ only year and month from `date` are used, but for compatibility reasons full dat
     acc + res.bounds.durationH
   } / (diningTablesAtRestaurant.count() * 24)
   ```
-- `404 Not found`: `restaurantID` does not represent available restaurant
 - `400 Bad request`: `restaurantID` is missing.
+- `404 Not found`: `restaurantID` does not represent available restaurant
 - `422 Unprocessable entity`: `restaurantID` is not an `Integer`.
+
+
+
+### [`⚓/restaurants/{restaurant_ID}/reservations/search :: 🎁GET`](http://localhost:42069/restaurants/…/reservations)
+###### Lists dining tables matching criteria, that are available in given bounds
+
+#### URL parameters:
+- `restaurantID: Integer` — `number` of restaurant.
+ 
+#### Request body:
+
+```ts
+{
+  date: @ISO_8601("uuuu-MM-dd'T'HH:mm") String
+  durationH: @Hours Long,
+  filter: {
+    byWindow: Boolean?,
+    outside: Boolean?,
+    smokingAllowed: Boolean?,
+  }?
+}
+```
+`filter` property, if present, filters response based on present fields.
+
+#### Responses:
+
+- `200 OK`: 
+  ```ts
+  {
+    restaurantID: Long,
+    number: Integer,
+    byWindow: Boolean,
+    outside: Boolean,
+    smokingAllowed: Boolean
+  }[]
+  ```
+  empty array might be returned if none are found.\
+  Only immediately available tables are listed — only [locking call](./README.md#dining_tablesreservations--put-lock) is guaranteed to show actual availability of given dining table.
+- `400 Bad request`: `restaurantID` is missing.
+- `404 Not found`: `restaurantID` does not represent available restaurant
+- `422 Unprocessable entity`: body is missing or malformed.
 
 ---
 

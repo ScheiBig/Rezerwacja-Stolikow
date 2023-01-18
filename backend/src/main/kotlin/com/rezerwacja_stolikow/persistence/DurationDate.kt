@@ -22,6 +22,10 @@ object DurationDate {
         val from: LocalDateTime,
         val durationH: Long
     ) {
+        init {
+            if (durationH <= 0L) throw IllegalArgumentException("Duration must be positive")
+        }
+        
         fun toView() = View(from, from + durationH.hours)
     }
 }

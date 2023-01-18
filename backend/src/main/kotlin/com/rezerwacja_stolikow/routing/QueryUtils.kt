@@ -15,8 +15,13 @@ data class DiningTableQuery(
 @Serializable
 data class ReservationQuery(
     val date: LocalDateTime,
+    val durationH: Long? = null,
     val filter: DiningTableQuery? = null
-)
+) {
+    init {
+        if (durationH != null && durationH <= 0L) throw IllegalArgumentException("Duration must be positive")
+    }
+}
 
 @Serializable
 data class PhoneNumber(

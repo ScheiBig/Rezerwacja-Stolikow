@@ -18,6 +18,7 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.YearMonth
+import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.seconds
 
 
@@ -102,8 +103,8 @@ fun Routing.reservationRoutes() {
         }
     }
     
-    route(RESTAURANTS) {
-        get("{$RESTAURANT_ID}" / RESERVATIONS) {
+    route(RESTAURANTS / "{$RESTAURANT_ID}" / RESERVATIONS) {
+        get {
             val restaurantID = this.call
                 .parameters(RESTAURANT_ID)
                 .toLong()
@@ -155,7 +156,45 @@ fun Routing.reservationRoutes() {
                     }
             }
             
-            responseArray.map { (n, d) -> n.toFloat() / d }.ok respondTo this.call
+            responseArray
+                .map { (n, d) -> n.toFloat() / d }
+                .drop(1).ok respondTo this.call
+        }
+        
+        get(SEARCH) {
+            val restaurantID = this.call
+                .parameters(RESTAURANT_ID)
+                .toLong()
+            val q = this.call.receiveOptional<ReservationQuery>()
+                ?: throw IllegalArgumentException("Query details are missing")
+            if (q.durationH == null) throw IllegalArgumentException("Query details are missing")
+            
+            val bounds = q.date within q.durationH.hours
+            
+            if (transaction { Restaurant.Entity.findById(restaurantID) } == null) {
+                throw Restaurant.NSEE(restaurantID)
+            }
+            
+            transaction {
+                var tablesE = DiningTable.Table.restaurant eq restaurantID
+                if (q.filter != null) {
+                    q.filter.byWindow?.let { tablesE = tablesE.and { DiningTable.Table.byWindow eq q.filter.byWindow } }
+                    q.filter.outside?.let { tablesE = tablesE.and { DiningTable.Table.outside eq q.filter.outside } }
+                    q.filter.smokingAllowed?.let {
+                        tablesE = tablesE.and { DiningTable.Table.smokingAllowed eq q.filter.smokingAllowed }
+                    }
+                }
+                DiningTable.Entity
+                    .find(tablesE)
+                    .filter {
+                        Reservation.Entity
+                            .findConflictingReservations(it, bounds)
+                            .empty() && PendingLock.Entity
+                            .findConflictingLocks(it, bounds)
+                            .empty()
+                    }
+                    .map(DiningTable.Entity::toSimpleView)
+            }.ok respondTo this.call
         }
     }
 }
