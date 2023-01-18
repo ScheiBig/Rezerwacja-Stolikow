@@ -16,3 +16,5 @@ fun resource(path: String) = """src\main\resources\$path"""
 operator fun Parameters.invoke(name: String) = this.getOrFail(name)
 
 operator fun String.div(child: String) = "$this/$child"
+
+operator fun IntRange.contains(another: IntRange) = another.first in this && another.last in this
