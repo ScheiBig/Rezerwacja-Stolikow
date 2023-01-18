@@ -149,6 +149,7 @@ filters response based on present fields.
 - `404 Not found`: `diningTable` doesn't represent existing table.
 - `409 Conflict`: there is already a reservation made on colliding reservation slot.
 - `410 Gone`: `from` property represents past date.
+- `412 Precondition failed`: `bounds` are at least partially outside of opening hours of given restaurant.
 - `422 Unprocessable entity`: body is missing or malformed.
 - `423 Locked`: there is already a lock put on colliding reservation slot.
 

@@ -10,6 +10,7 @@ import com.rezerwacja_stolikow.persistence.PendingLock
 import com.rezerwacja_stolikow.persistence.Reservation
 import com.rezerwacja_stolikow.plugins.Jwt
 import com.rezerwacja_stolikow.util.*
+import com.rezerwacja_stolikow.validation.RestaurantOpeningHours
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
@@ -46,20 +47,22 @@ fun Routing.pendingLockRoutes() {
             val expiration = LocalDateTime.now + (2.minutes + 5.seconds)
             
             transaction {
+                if (RestaurantOpeningHours
+                        .withOpeningHours(diningTable.restaurant.toView().openingHours)
+                        .isWithin(lock.bounds)
+                        .not()
+                ) throw NullPointerException("Reservation bounds outside of restaurant opening hours")
+                
                 if (PendingLock.Entity
                         .findConflictingLocks(diningTable, lock.bounds)
                         .empty()
                         .not()
-                ) {
-                    throw PendingLock.DLE(diningTable.restaurant.id.value, diningTable.number, lock.bounds)
-                }
+                ) throw PendingLock.DLE(diningTable.restaurant.id.value, diningTable.number, lock.bounds)
                 if (Reservation.Entity
                         .findConflictingReservations(diningTable, lock.bounds)
                         .empty()
                         .not()
-                ) {
-                    throw Reservation.DTE(diningTable.restaurant.id.value, diningTable.number, lock.bounds)
-                }
+                ) throw Reservation.DTE(diningTable.restaurant.id.value, diningTable.number, lock.bounds)
                 PendingLock.Entity.fromView(lock.copy(expirationDateTime = expiration))
             }
             Jwt.create(expiration) {
