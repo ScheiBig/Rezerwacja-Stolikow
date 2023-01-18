@@ -4,6 +4,7 @@ package com.rezerwacja_stolikow.errors
 
 import com.rezerwacja_stolikow.persistence.*
 import io.ktor.http.*
+import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.seconds
 
 @DslMarker
@@ -28,7 +29,7 @@ fun PendingLock.DLE(
     bounds: DurationDate.AltView
 ) = DataLockedException(
     "Dining table already locked: $number in restaurant $restaurantID, ${
-        bounds.durationS.seconds
+        bounds.durationH.hours
     } from ${bounds.from}"
 )
 
@@ -38,7 +39,7 @@ fun PendingLock.NSEE(
     number: Int,
     bounds: DurationDate.AltView
 ) = NoSuchElementException(
-    "No such lock on dining table: $number in restaurant $restaurantID, ${bounds.durationS.seconds} from ${bounds.from}"
+    "No such lock on dining table: $number in restaurant $restaurantID, ${bounds.durationH.hours} from ${bounds.from}"
 )
 
 @ThrowableFactory
@@ -48,7 +49,7 @@ fun Reservation.DTE(
     bounds: DurationDate.AltView
 ) = DataTakenException(
     "Dining table already reserved: $number in restaurant $restaurantID, ${
-        bounds.durationS.seconds
+        bounds.durationH.hours
     } from ${bounds.from}"
 )
 
@@ -59,7 +60,7 @@ fun Reservation.NSEE(
     bounds: DurationDate.AltView,
     personDetails: Person.View
 ) = NoSuchElementException(
-    "No such reservation for dining table: $number in restaurant $restaurantID, ${bounds.durationS.seconds} from ${
+    "No such reservation for dining table: $number in restaurant $restaurantID, ${bounds.durationH.hours} from ${
         bounds.from
     }, by ${personDetails.firstName} ${personDetails.lastName} (#${personDetails.phoneNumber})"
 )

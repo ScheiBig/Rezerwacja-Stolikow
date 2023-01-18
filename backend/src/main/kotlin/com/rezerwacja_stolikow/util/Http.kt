@@ -20,7 +20,11 @@ suspend inline fun <reified T: Any> ApplicationCall.receiveOptional() =
     if (this.request.contentType() == ContentType.Application.Json) try {
         Json.decodeFromString<T>(receiveText())
     } catch (_: Exception) {
-        receive()
+        try {
+            receive()
+        } catch (_: Exception) {
+            null
+        }
     } else null
 
 

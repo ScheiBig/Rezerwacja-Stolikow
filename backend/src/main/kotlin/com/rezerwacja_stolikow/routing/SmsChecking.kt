@@ -1,5 +1,6 @@
 package com.rezerwacja_stolikow.routing
 
+import com.rezerwacja_stolikow.errors.DataSpoiledException
 import com.rezerwacja_stolikow.persistence.SmsCodes
 import com.rezerwacja_stolikow.plugins.Jwt
 import com.rezerwacja_stolikow.util.div
@@ -33,6 +34,8 @@ fun Routing.smsCheckingRoutes() {
             } catch (_: Exception) {
                 null
             } ?: throw Jwt.AEType()
+            
+            if (decode == -1L) throw DataSpoiledException("Code has expired")
             
             Jwt.create {
                 withSubject(Jwt.Subjects.ACCESS)

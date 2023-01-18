@@ -150,7 +150,7 @@ fun Routing.reservationRoutes() {
                     .map(Reservation.Entity::toView)
                     .forEach { r ->
                         responseArray[r.bounds.from.dayOfMonth] = responseArray[r.bounds.from.dayOfMonth].let {
-                            it.copy(first = it.first + r.bounds.durationS.seconds.inWholeHours)
+                            it.copy(first = it.first + r.bounds.durationH)
                         }
                     }
             }

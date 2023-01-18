@@ -39,7 +39,7 @@ object SmsCodes {
                 .firstOrNull()
             if (entry != null && entry.value.expiration < LocalDateTime.now) {
                 _map.remove(entry.key)
-                null
+                -1
             } else entry?.key
         }
     }
