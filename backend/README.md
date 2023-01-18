@@ -70,8 +70,6 @@ Launches the unit tests.
     }, …
   ]
   ```
-  where `NumberEncodedTime` for 21:37 will be `2137`.
-  <!-- `number` property is guaranteed to be unique and thus can be used as `key`. -->
 
 
 
@@ -196,7 +194,7 @@ filters response based on present fields.
 
 #### Request body:
 
-- 6-digit, random verification code from `🎁GET` route.
+- 6-digit, random verification code from [`🎁GET`](./README.md#sms_checkingreservations--get) route.
 
 #### Responses:
 
