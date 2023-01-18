@@ -11,4 +11,4 @@ Web app for restaurant table reservations.
 - [📱 frontend](frontend/README.md)
 
 #### For the REST API documentation consult
-- [🛰️ API](backend/README.md) (last section)
+- [🛰️ API](backend/README.md#available-endpoints)
