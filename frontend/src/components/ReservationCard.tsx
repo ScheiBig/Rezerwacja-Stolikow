@@ -49,7 +49,7 @@ ${dateTimeFormat.format(date)}-${timeFormat.format(toDate)}
         }
     }
 
-    return <section className="h-40 w-[34rem] s_sml:w-[calc(100%-1.5rem)] s_sml:mx-3 grid grid-cols-4 gap-x-2 bg-slate-50 dark:bg-zinc-900 rounded-xl overflow-hidden border border-zinc-300 dark:border-zinc-800">
+    return <section className="h-40 w-[34rem] s_sml:w-[calc(100%-1.5rem)] s_sml:mx-3 grid grid-cols-4 gap-x-2 bg-zinc-50 dark:bg-zinc-900 rounded-xl overflow-hidden border border-zinc-300 dark:border-zinc-800">
         <div className="col-span-1 row-span-4 overflow-hidden pr-2">
             <img src={restaurant && (baseUrl + restaurant.image.substring(1))} className="object-cover w-full h-full" />
         </div>

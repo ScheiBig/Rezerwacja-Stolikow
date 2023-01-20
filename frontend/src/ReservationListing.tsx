@@ -60,10 +60,21 @@ export default function ReservationListing(): ReactElement {
         })
     }
 
-    return <main className="flex items-center justify-center align-middle h-full">
-        {headerContext.getPhoneNumber()[0] === 0 ?
-            <OneLineForm onSubmit={handlePhoneClick} value={Number.isNaN(pnValue) ? "" : pnValue} onChange={changePnValue} pattern={phonePL} ref={ref} placeholder="numer relefonu" buttonText="✔️" labelText="Nr telefonu z rezerwacji: " loading={loading} /> : accessToken === "" ? <>
-                <OneLineForm onSubmit={handleSmsClick} value={Number.isNaN(code) ? "" : code} onChange={changeSmsCode} pattern="\d{6}" ref={ref} placeholder="kod z sms" buttonText="🔍" labelText="Kod przysłany w sms: " loading={loading} />
-            </> : <ReservationList accessToken={accessToken} />}
-    </main>
+    if (headerContext.getPhoneNumber()[0] === 0) {
+
+        return <main className="flex items-center justify-center align-middle h-full">
+            <OneLineForm onSubmit={handlePhoneClick} value={Number.isNaN(pnValue) ? "" : pnValue} onChange={changePnValue} pattern={phonePL} ref={ref} placeholder="numer relefonu" buttonText="✔️" labelText="Nr telefonu z rezerwacji: " loading={loading} />
+        </main>
+    } else if (accessToken === "") {
+
+        return <main className="flex items-center justify-center align-middle h-full">
+            <OneLineForm onSubmit={handleSmsClick} value={Number.isNaN(code) ? "" : code} onChange={changeSmsCode} pattern="\d{6}" ref={ref} placeholder="kod z sms" buttonText="🔍" labelText="Kod przysłany w sms: " loading={loading} />
+
+        </main>
+    } else {
+
+        return <main className="flex items-center justify-center align-middle h-full">
+            <ReservationList accessToken={accessToken} />
+        </main>
+    }
 }

@@ -6,6 +6,7 @@ import Header from './components/Header';
 import { HeaderContextProvider } from './context/HeaderContext';
 import { RestaurantsContextProvider } from './context/RestaurantsContext';
 import Home from './Home';
+import ReservationBuilder from './ReservationBuilder';
 import ReservationListing from './ReservationListing';
 
 const queryClient = new QueryClient()
@@ -17,6 +18,7 @@ export default function App(): React.ReactElement {
     <Header />
     <Routes>
       <Route path={routing.home} element={<Home />} />
+      <Route path={routing.create_reservation} element={<ReservationBuilder />} />
       <Route path={routing.list_reservations} element={<ReservationListing />} />
     </Routes>
     <Footer />

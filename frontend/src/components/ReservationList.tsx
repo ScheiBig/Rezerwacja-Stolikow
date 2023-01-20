@@ -24,7 +24,20 @@ export default function ReservationList({ accessToken }: propT): ReactElement {
 
     const dispData = data?.filter(e => !filter.includes(e.removalToken))
 
-    return <section className="flex flex-col gap-y-2">
-        {isLoading ? <p className="w-8 h-8 animate-spin">⌛</p> : ((dispData !== undefined && dispData.length !== 0) ? dispData.map((r) => <ReservationCard key={r.removalToken} reservation={r} onCancel={r => setFilter(f => f.concat(r.removalToken))} />) : <p className='opacity-80'>Brak rezerwacji</p>) }
-    </section>
+    if (isLoading) {
+
+        return <section className="flex flex-col gap-y-2">
+            <p className="w-8 h-8 animate-spin">⌛</p>
+        </section>
+    } else if (dispData !== undefined && dispData.length !== 0) {
+
+        return <section className="flex flex-col gap-y-2">
+            {dispData.map((r) => <ReservationCard key={r.removalToken} reservation={r} onCancel={r => setFilter(f => f.concat(r.removalToken))} />)}
+        </section>
+    } else {
+        
+        return <section className="flex flex-col gap-y-2">
+            <p className='opacity-80'>Brak rezerwacji</p>)
+        </section>
+    }
 }

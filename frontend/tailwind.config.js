@@ -11,6 +11,7 @@ module.exports = {
   theme: {
     extend: {},
     screens: {
+      's_lrg': { 'max': '1020px' },
       's_mid': { 'max': '600px' },
       's_sml': { 'max': '440px' }
     }

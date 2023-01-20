@@ -23,7 +23,6 @@ const OneLineForm = forwardRef(function OneLineForm({ onSubmit, value, onChange,
     return <form className="flex flex-row gap-x-4" noValidate onSubmit={loading ? () => { } : onSubmit}>
         <label htmlFor={id} className="leading-10">{labelText}</label>
         <input className={input$tyle + " " + outline$tyle} ref={ref} type="text" pattern={pattern} id={id} value={value} onChange={onChange} required={!!pattern} placeholder={placeholder} />
-
         <button type="submit" className={outline$tyle + " rounded-full aspect-square" + (loading ? " animate-spin" : "")}>{loading ? "⌛" : buttonText}</button>
     </form>
 })
