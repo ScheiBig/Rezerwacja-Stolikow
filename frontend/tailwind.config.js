@@ -11,8 +11,8 @@ module.exports = {
   theme: {
     extend: {},
     screens: {
-      'phone': { 'max': '599px' },
-      'computer': '600px'
+      's_mid': { 'max': '600px' },
+      's_sml': { 'max': '440px' }
     }
   },
   plugins: [],
