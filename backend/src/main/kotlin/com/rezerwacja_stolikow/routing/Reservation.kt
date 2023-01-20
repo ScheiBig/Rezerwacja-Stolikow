@@ -124,7 +124,17 @@ fun Routing.reservationRoutes() {
                 YearMonth
                     .of(q.date.year, q.date.month)
                     .lengthOfMonth()
-            ) { 0L to tableNumber * 24 }
+            ) {
+                if (LocalDateTime(
+                        q.date.year,
+                        q.date.month,
+                        it + 1,
+                        23,
+                        59
+                    ).toEpochMilliseconds() < LocalDateTime.now.toEpochMilliseconds()
+                ) tableNumber * 24 to tableNumber * 24
+                else 0L to tableNumber * 24
+            }
             
             transaction {
                 Reservation.Entity
@@ -149,15 +159,13 @@ fun Routing.reservationRoutes() {
                     }
                     .map(Reservation.Entity::toView)
                     .forEach { r ->
-                        responseArray[r.bounds.from.dayOfMonth] = responseArray[r.bounds.from.dayOfMonth].let {
+                        responseArray[r.bounds.from.dayOfMonth - 1] = responseArray[r.bounds.from.dayOfMonth - 1].let {
                             it.copy(first = it.first + r.bounds.durationH)
                         }
                     }
             }
             
-            responseArray
-                .map { (n, d) -> n.toFloat() / d }
-                .drop(1).ok respondTo this.call
+            responseArray.map { (n, d) -> n.toFloat() / d }.ok respondTo this.call
         }
         
         post(SEARCH) {
@@ -169,6 +177,10 @@ fun Routing.reservationRoutes() {
             if (q.durationH == null) throw IllegalArgumentException("Query details are missing")
             
             val bounds = q.date within q.durationH.hours
+            
+            if (q.date.toEpochMilliseconds() < LocalDateTime.now.toEpochMilliseconds()) {
+                throw DataSpoiledException("Reservation time has already passed")
+            }
             
             if (transaction { Restaurant.Entity.findById(restaurantID) } == null) {
                 throw Restaurant.NSEE(restaurantID)

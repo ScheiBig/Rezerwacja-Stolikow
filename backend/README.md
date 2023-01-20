@@ -326,6 +326,7 @@ only year and month from `date` are used, but for compatibility reasons full dat
     acc + res.bounds.durationH
   } / (diningTablesAtRestaurant.count() * 24)
   ```
+  additionally, each day that has already ended will have its value increased by 1.
 - `400 Bad request`: `restaurantID` is missing.
 - `404 Not found`: `restaurantID` does not represent available restaurant
 - `422 Unprocessable entity`: `restaurantID` is not an `Integer`.
@@ -368,7 +369,8 @@ only year and month from `date` are used, but for compatibility reasons full dat
   empty array might be returned if none are found.\
   Only immediately available tables are listed — only [locking call](./README.md#dining_tablesreservations--put-lock) is guaranteed to show actual availability of given dining table.
 - `400 Bad request`: `restaurantID` is missing.
-- `404 Not found`: `restaurantID` does not represent available restaurant
+- `404 Not found`: `restaurantID` does not represent available restaurant.
+- `410 Gone`: `date` has already passed.
 - `422 Unprocessable entity`: body is missing or malformed.
 
 ---
