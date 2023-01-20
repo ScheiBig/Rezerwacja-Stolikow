@@ -1,5 +1,6 @@
-import { ChangeEventHandler, FormEventHandler, forwardRef, LegacyRef, ReactElement, useId } from "react";
-import { outline$tyle } from "../types";
+import { ChangeEventHandler, FormEventHandler, forwardRef, LegacyRef, ReactElement, useId } from 'react';
+
+import { outline$tyle } from '../types';
 
 type propsT = {
     onSubmit: FormEventHandler<HTMLFormElement>,

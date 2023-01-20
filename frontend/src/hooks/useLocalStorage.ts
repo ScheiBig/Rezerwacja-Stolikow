@@ -1,4 +1,5 @@
-import { Dispatch, SetStateAction, useState } from "react"
+import { Dispatch, SetStateAction, useState } from 'react';
+
 /* Source: https://usehooks.com/useLocalStorage/ */
 
 export default function useLocalStorage<S>(key: string, initialValue: S): [S, Dispatch<SetStateAction<S>>] {

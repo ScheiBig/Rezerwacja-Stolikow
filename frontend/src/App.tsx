@@ -1,11 +1,12 @@
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { Route, Routes } from 'react-router';
-import Home from './Home';
-import Header from './components/Header';
+
 import Footer from './components/Footer';
-import ReservationListing from './ReservationListing';
+import Header from './components/Header';
 import { HeaderContextProvider } from './context/HeaderContext';
 import { RestaurantsContextProvider } from './context/RestaurantsContext';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import Home from './Home';
+import ReservationListing from './ReservationListing';
 
 const queryClient = new QueryClient()
 

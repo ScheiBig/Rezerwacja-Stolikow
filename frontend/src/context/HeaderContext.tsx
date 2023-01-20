@@ -1,6 +1,7 @@
-import { createContext, useContext, useState } from "react";
-import { childProps } from "../types";
-import { PhoneNumber } from "../util/PhoneNumber";
+import { createContext, useContext, useState } from 'react';
+
+import { childProps } from '../types';
+import { PhoneNumber } from '../util/PhoneNumber';
 
 export type headerContextType = {
     getPhoneNumber: () => [number, string]

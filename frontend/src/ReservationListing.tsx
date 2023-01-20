@@ -26,7 +26,7 @@ export default function ReservationListing(): ReactElement {
         e.preventDefault()
         if (ref.current === null || !ref.current.reportValidity()) return
         setLoading(true)
-        
+
         axios.put<number>(`${baseUrl}/sms_checking/reservations`, {
             phoneNumber: pnValue
         }).then(value => {

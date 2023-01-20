@@ -1,4 +1,4 @@
-import { ReactElement, RefObject, useEffect, useRef } from "react"
+import { ReactElement, RefObject, useEffect, useRef } from 'react';
 
 type propsT = {
     name?: string,

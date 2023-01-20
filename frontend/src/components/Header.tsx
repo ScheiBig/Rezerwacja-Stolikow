@@ -1,9 +1,10 @@
-import { ReactElement } from "react";
-import { useLocation } from "react-router";
-import { Link } from "react-router-dom";
-import { routing } from "../App";
-import { useHeaderContext } from "../context/HeaderContext";
-import { outline$tyle } from "../types";
+import { ReactElement } from 'react';
+import { useLocation } from 'react-router';
+import { Link } from 'react-router-dom';
+
+import { routing } from '../App';
+import { useHeaderContext } from '../context/HeaderContext';
+import { outline$tyle } from '../types';
 
 const link$tyle = "inline-block border border-slate-500 rounded-full px-3 s_mid:px-2 py-1 s_mid:py-0 text-base"
 

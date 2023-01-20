@@ -1,5 +1,6 @@
 import { ChangeEvent, ChangeEventHandler, Dispatch, SetStateAction } from 'react';
 import { useState } from 'react';
+
 export default function useFormState<S>(initialState: S | (() => S), transformation?: (val: string) => S): [S, Dispatch<SetStateAction<S>>, ChangeEventHandler<HTMLInputElement>] {
     const [state, setState] = useState(initialState)
     function changeState(e: ChangeEvent<HTMLInputElement>) {

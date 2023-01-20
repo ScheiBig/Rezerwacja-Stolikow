@@ -1,8 +1,9 @@
-import { createContext, useContext } from "react"
-import { useQuery } from "react-query"
-import { baseUrl } from "../App"
-import { childProps, restaurant, restaurantsKey } from "../types"
-import axios from "axios";
+import axios from 'axios';
+import { createContext, useContext } from 'react';
+import { useQuery } from 'react-query';
+
+import { baseUrl } from '../App';
+import { childProps, restaurant, restaurantsKey } from '../types';
 
 export type restaurantsContext = {
     getRestaurants: () => (restaurant[] | undefined)
