@@ -89,4 +89,31 @@ export const dateTimeFormat = new Intl.DateTimeFormat("pl", {
     ...timeOptions
 })
 
+export const dayMonthFormat = new Intl.DateTimeFormat("pl", {
+    day: "2-digit",
+    month: 'long'
+})
+
+export const weekdayFormat = new Intl.DateTimeFormat("pl", {
+    weekday: 'long'
+})
+
+export const monthYearFormat = new Intl.DateTimeFormat("pl", {
+    month: "long",
+    year: "numeric"
+})
+
+export const fullDateFormat = new Intl.DateTimeFormat("pl", {
+    weekday: "short",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+})
+
 export const outline$tyle = "focus:outline-none focus:outline-2 focus:outline-offset-1 focus:outline-sky-500/50"
+
+export function toJavaDate(date: Date) {
+    const dateStr = date.toISOString()
+    if (dateStr.length === 24) return dateStr.slice(0, 16)
+    else return ""
+}

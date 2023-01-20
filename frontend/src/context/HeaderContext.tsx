@@ -8,7 +8,10 @@ export type headerContextType = {
     setPhoneNumber: (number: string | number) => void
 
     getRestaurantID: () => number
-    setRestaurantID: (ID: number) => void
+    setRestaurantID: (ID: number) => void,
+
+    getDate: () => Date | null
+    setDate: (date: Date | null) => void,
 
     resetAllState: () => void
 }
@@ -24,6 +27,8 @@ export function HeaderContextProvider({ children }: childProps) {
 
     const [rID, setRID] = useState(0)
 
+    const [d, setD] = useState<Date | null>(null)
+
     function getPhoneNumber(): [number, string] { return [pnN, pnS] }
     function setPhoneNumber(number: string | number) {
         if (typeof (number) === "string") {
@@ -38,13 +43,17 @@ export function HeaderContextProvider({ children }: childProps) {
     function getRestaurantID() { return rID }
     function setRestaurantID(ID: number) { setRID(ID) }
 
+    function getDate() { return d }
+    function setDate(date: Date | null) { setD(date) }
+
 
     function resetAllState() {
         setPhoneNumber(0)
         setRestaurantID(0)
+        setDate(null)
     }
 
-    return <HeaderContext.Provider value={{ getPhoneNumber, setPhoneNumber, getRestaurantID, setRestaurantID, resetAllState }}>
+    return <HeaderContext.Provider value={{ getPhoneNumber, setPhoneNumber, getRestaurantID, setRestaurantID, getDate, setDate, resetAllState }}>
         {children}
     </HeaderContext.Provider>
 }

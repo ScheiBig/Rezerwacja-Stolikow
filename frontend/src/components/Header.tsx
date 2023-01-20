@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { routing } from '../App';
 import { useHeaderContext } from '../context/HeaderContext';
 import { useRestaurantsContext } from '../context/RestaurantsContext';
-import { outline$tyle } from '../types';
+import { fullDateFormat, outline$tyle } from '../types';
 
 const link$tyle = "inline-block border border-slate-500 rounded-full px-3 s_mid:px-2 py-1 s_mid:py-0 text-base"
 
@@ -36,6 +36,9 @@ export default function Header(): ReactElement {
       }
       {(location.pathname === routing.create_reservation && restaurant) &&
         <button type="button" className={`${link$tyle} ${outline$tyle}`} onClick={()=>headerContext.setRestaurantID(0)} >Restauracja "{restaurant.name}"</button>
+      }
+      {(location.pathname === routing.create_reservation && headerContext.getDate() !== null) &&
+        <button type="button" className={`${link$tyle} ${outline$tyle}`} onClick={() => headerContext.setDate(null)} >{fullDateFormat.format(headerContext.getDate()!)}</button>
       }
     </nav>}
   </div>
