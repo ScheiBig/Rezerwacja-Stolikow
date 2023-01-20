@@ -16,6 +16,7 @@ export default function App(): React.ReactElement {
     <Header />
     <Routes>
       <Route path={routing.home} element={<Home />} />
+      <Route path={routing.list_reservations} element={<ReservationListing />} />
     </Routes>
     <Footer />
   </RestaurantsContextProvider></HeaderContextProvider></QueryClientProvider>
