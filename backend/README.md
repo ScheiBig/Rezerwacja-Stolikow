@@ -73,7 +73,7 @@ Launches the unit tests.
 
 
 
-### [`⚓/dining_tables/search/{restaurant_ID} :: 🎁GET`](http://localhost:42069/dining_tables/search/…)
+### [`⚓/dining_tables/search/{restaurant_ID} :: 📨POST`](http://localhost:42069/dining_tables/search/…)
 
 ###### Finds list of dining tables matching criteria
 
@@ -171,7 +171,7 @@ filters response based on present fields.
 
 
 
-### [`⚓/sms_checking/reservations :: 🎁GET`](http://localhost:42069/sms_checking/reservations)
+### [`⚓/sms_checking/reservations :: 🛒PUT`](http://localhost:42069/sms_checking/reservations)
 ###### Returns sms verification code (mocks sending code via sms)
 
 #### Request body:
@@ -194,7 +194,7 @@ filters response based on present fields.
 
 #### Request body:
 
-- 6-digit, random verification code from [`🎁GET`](./README.md#sms_checkingreservations--get) route.
+- 6-digit, random verification code from [`🛒PUT`](./README.md#sms_checkingreservations--put) route.
 
 #### Responses:
 
@@ -207,7 +207,7 @@ filters response based on present fields.
 
 
 
-### [`⚓/dining_tables/reservations :: PUT [🔐lock]`](http://localhost:42069/dining_tables/reservations)
+### [`⚓/dining_tables/reservations :: 🛒PUT [🔐lock]`](http://localhost:42069/dining_tables/reservations)
 ###### Finalizes reservation and returns its details
 
 #### Request body:
@@ -299,7 +299,7 @@ filters response based on present fields.
 
 
 
-### [`⚓/restaurants/{restaurant_ID}/reservations :: 🎁GET`](http://localhost:42069/restaurants/…/reservations)
+### [`⚓/restaurants/{restaurant_ID}/reservations :: 📨POST`](http://localhost:42069/restaurants/…/reservations)
 ###### Lists occupancy rates for specified restaurant and month & year
 
 #### URL parameters:
@@ -332,7 +332,7 @@ only year and month from `date` are used, but for compatibility reasons full dat
 
 
 
-### [`⚓/restaurants/{restaurant_ID}/reservations/search :: 🎁GET`](http://localhost:42069/restaurants/…/reservations)
+### [`⚓/restaurants/{restaurant_ID}/reservations/search :: 📨POST`](http://localhost:42069/restaurants/…/reservations)
 ###### Lists dining tables matching criteria, that are available in given bounds
 
 #### URL parameters:
