@@ -12,7 +12,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 fun Routing.diningTableRoutes() {
     route(DINING_TABLES) {
-        get(SEARCH / "{$RESTAURANT_ID}") {
+        post(SEARCH / "{$RESTAURANT_ID}") {
             val restaurantID = this.call
                 .parameters(RESTAURANT_ID)
                 .toLong()
@@ -22,7 +22,7 @@ fun Routing.diningTableRoutes() {
                 throw Restaurant.NSEE(restaurantID)
             }
             
-            return@get if (q == null) {
+            if (q == null) {
                 transaction {
                     DiningTable.Entity
                         .find(DiningTable.Table.restaurant eq restaurantID)

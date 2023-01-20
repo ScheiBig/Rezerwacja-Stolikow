@@ -13,7 +13,7 @@ import io.ktor.server.routing.*
 
 fun Routing.smsCheckingRoutes() {
     route(SMS_CHECKING / RESERVATIONS) {
-        get {
+        put {
             val phoneNumber =
                 this.call.receiveOptional<PhoneNumber>() ?: throw IllegalArgumentException("PhoneNumber is missing")
             

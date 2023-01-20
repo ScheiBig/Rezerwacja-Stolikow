@@ -19,7 +19,6 @@ import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.YearMonth
 import kotlin.time.Duration.Companion.hours
-import kotlin.time.Duration.Companion.seconds
 
 
 fun Routing.reservationRoutes() {
@@ -104,7 +103,7 @@ fun Routing.reservationRoutes() {
     }
     
     route(RESTAURANTS / "{$RESTAURANT_ID}" / RESERVATIONS) {
-        get {
+        post {
             val restaurantID = this.call
                 .parameters(RESTAURANT_ID)
                 .toLong()
@@ -161,7 +160,7 @@ fun Routing.reservationRoutes() {
                 .drop(1).ok respondTo this.call
         }
         
-        get(SEARCH) {
+        post(SEARCH) {
             val restaurantID = this.call
                 .parameters(RESTAURANT_ID)
                 .toLong()
