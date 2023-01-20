@@ -1,18 +1,28 @@
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { Route, Routes } from 'react-router';
-import Home from './Home';
-import Header from './components/Header';
+
 import Footer from './components/Footer';
+import Header from './components/Header';
+import { HeaderContextProvider } from './context/HeaderContext';
+import { RestaurantsContextProvider } from './context/RestaurantsContext';
+import Home from './Home';
+import ReservationBuilder from './ReservationBuilder';
+import ReservationListing from './ReservationListing';
+
+const queryClient = new QueryClient()
 
 export default function App(): React.ReactElement {
 
-  return <>
+  return <QueryClientProvider client={queryClient}><HeaderContextProvider><RestaurantsContextProvider>
     {/* <Header expanded/> */}
     <Header />
     <Routes>
       <Route path={routing.home} element={<Home />} />
+      <Route path={routing.create_reservation} element={<ReservationBuilder />} />
+      <Route path={routing.list_reservations} element={<ReservationListing />} />
     </Routes>
     <Footer />
-  </>
+  </RestaurantsContextProvider></HeaderContextProvider></QueryClientProvider>
 
 }
 
@@ -21,3 +31,5 @@ export const routing = {
   create_reservation: "/create-reservation",
   list_reservations: "/list-reservations"
 }
+
+export const baseUrl = "http://127.0.0.1:42069"
