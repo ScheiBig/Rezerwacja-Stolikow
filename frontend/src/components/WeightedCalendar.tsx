@@ -16,9 +16,6 @@ export default function WeightedCalendar({ forMonth, restaurantID, weightTransfo
 
     const [date, setDate] = useState(forMonth)
 
-    console.log(date)
-    console.log(date.toISOString())
-
     const weights = useQuery(`weights ${date}`, async () => {
         return (await axios.post<number[]>(`${baseUrl}/restaurants/${restaurantID}/reservations`, {
             date: toJavaDate(date)

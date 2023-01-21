@@ -3,6 +3,11 @@ import { createContext, useContext, useState } from 'react';
 import { childProps } from '../types';
 import { PhoneNumber } from '../util/PhoneNumber';
 
+type tableTime = {
+    tableNumber: number,
+    time: Date
+} | null
+
 export type headerContextType = {
     getPhoneNumber: () => [number, string]
     setPhoneNumber: (number: string | number) => void
@@ -12,6 +17,9 @@ export type headerContextType = {
 
     getDate: () => Date | null
     setDate: (date: Date | null) => void,
+
+    getTableTime: () => tableTime
+    setTableTime: (tableTime: tableTime) => void
 
     resetAllState: () => void
 }
@@ -28,6 +36,8 @@ export function HeaderContextProvider({ children }: childProps) {
     const [rID, setRID] = useState(0)
 
     const [d, setD] = useState<Date | null>(null)
+
+    const [tt, setTt] = useState<tableTime | null>(null)
 
     function getPhoneNumber(): [number, string] { return [pnN, pnS] }
     function setPhoneNumber(number: string | number) {
@@ -46,14 +56,17 @@ export function HeaderContextProvider({ children }: childProps) {
     function getDate() { return d }
     function setDate(date: Date | null) { setD(date) }
 
+    function getTableTime() { return tt }
+    function setTableTime(tableT: tableTime) { setTt(tableT) }
 
     function resetAllState() {
         setPhoneNumber(0)
         setRestaurantID(0)
         setDate(null)
+        setTableTime(null)
     }
 
-    return <HeaderContext.Provider value={{ getPhoneNumber, setPhoneNumber, getRestaurantID, setRestaurantID, getDate, setDate, resetAllState }}>
+    return <HeaderContext.Provider value={{ getPhoneNumber, setPhoneNumber, getRestaurantID, setRestaurantID, getDate, setDate, getTableTime, setTableTime, resetAllState }}>
         {children}
     </HeaderContext.Provider>
 }
