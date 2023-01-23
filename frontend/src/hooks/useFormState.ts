@@ -5,7 +5,7 @@ export default function useFormState<S>(initialState: S | (() => S), transformat
     const [state, setState] = useState(initialState)
     function changeState(e: ChangeEvent<HTMLInputElement>) {
         if (transformation) setState(transformation(e.target.value))
-        else if (state instanceof String) (setState as Dispatch<SetStateAction<string>>)(e.target.value)
+        else if (state instanceof String || typeof(state) === "string") (setState as Dispatch<SetStateAction<string>>)(e.target.value)
         else throw new Error(`No transformation provided from type string to ${typeof state}`)
     }
 

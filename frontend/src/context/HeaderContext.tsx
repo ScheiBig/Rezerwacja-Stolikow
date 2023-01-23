@@ -1,25 +1,33 @@
 import { createContext, useContext, useState } from 'react';
 
-import { childProps } from '../types';
+import { childProps, diningTableQuery } from '../types';
 import { PhoneNumber } from '../util/PhoneNumber';
 
-type tableTime = {
-    tableNumber: number,
-    time: Date
-} | null
+type time = Date | null
 
 export type headerContextType = {
-    getPhoneNumber: () => [number, string]
+    phoneNumber: [number, string]
     setPhoneNumber: (number: string | number) => void
 
-    getRestaurantID: () => number
+    restaurantID: number
     setRestaurantID: (ID: number) => void,
 
-    getDate: () => Date | null
-    setDate: (date: Date | null) => void,
+    date: time
+    setDate: (date: time) => void,
 
-    getTableTime: () => tableTime
-    setTableTime: (tableTime: tableTime) => void
+    time: number | null
+    setTime: (tableTime: number | null) => void
+
+    dateTime: time
+
+    duration: number
+    setDuration: (duration: number) => void
+
+    diningTable: number
+    setDiningTable: (number: number) => void
+
+    tableQuery: diningTableQuery
+    setTableQuery: (update: ((tableTime: diningTableQuery) => diningTableQuery)) => void
 
     resetAllState: () => void
 }
@@ -30,43 +38,54 @@ export function useHeaderContext() { return useContext(HeaderContext) }
 
 export function HeaderContextProvider({ children }: childProps) {
 
-    const [pnN, setpnN] = useState(0)
-    const [pnS, setpnS] = useState("")
+    const [phoneNumber$, setPhoneNumber$] = useState(0)
+    const [phoneString$, setPhoneString$] = useState("")
 
-    const [rID, setRID] = useState(0)
+    const [restaurantID$, setRestaurantID$] = useState(0)
 
-    const [d, setD] = useState<Date | null>(null)
+    const [date$, setDate$] = useState<time>(null)
 
-    const [tt, setTt] = useState<tableTime | null>(null)
+    const [time$, setTime$] = useState<number | null>(null)
 
-    function getPhoneNumber(): [number, string] { return [pnN, pnS] }
+    const [duration$, setDuration$] = useState<number>(0)
+
+    const [diningTable$, setDiningTable$] = useState<number>(0)
+
+    const [tableQuery$, setTableQuery$] = useState<diningTableQuery>(null)
+
     function setPhoneNumber(number: string | number) {
         if (typeof (number) === "string") {
-            setpnS(number)
-            setpnN(Number.parseInt(number.replace(" ", "")))
+            setPhoneString$(number)
+            setPhoneNumber$(Number.parseInt(number.replace(" ", "")))
         } else {
-            setpnN(number)
-            setpnS(PhoneNumber.toString(number) || "")
+            setPhoneNumber$(number)
+            setPhoneString$(PhoneNumber.toString(number) || "")
         }
     }
 
-    function getRestaurantID() { return rID }
-    function setRestaurantID(ID: number) { setRID(ID) }
+    function setRestaurantID(ID: number) { setRestaurantID$(ID) }
 
-    function getDate() { return d }
-    function setDate(date: Date | null) { setD(date) }
+    function setDate(date: time) { setDate$(date) }
 
-    function getTableTime() { return tt }
-    function setTableTime(tableT: tableTime) { setTt(tableT) }
+    function setTime(time: number | null) { setTime$(time) }
+
+    function setDuration(duration: number) { setDuration$(duration) }
+
+    function setDiningTable(number: number) { setDiningTable$(number) }
+
+    function setTableQuery(update: ((tableTime: diningTableQuery) => diningTableQuery)) { setTableQuery$(update) }
 
     function resetAllState() {
         setPhoneNumber(0)
         setRestaurantID(0)
         setDate(null)
-        setTableTime(null)
+        setTime(null)
+        setDuration(0)
+        setDiningTable(0)
+        setTableQuery(() => null)
     }
 
-    return <HeaderContext.Provider value={{ getPhoneNumber, setPhoneNumber, getRestaurantID, setRestaurantID, getDate, setDate, getTableTime, setTableTime, resetAllState }}>
+    return <HeaderContext.Provider value={{ phoneNumber: [phoneNumber$, phoneString$], setPhoneNumber, restaurantID: restaurantID$, setRestaurantID, date: date$, setDate, time: time$, setTime, dateTime: date$ && new Date(Date.UTC(date$.getFullYear(), date$.getMonth(), date$.getDate(), time$ || 0, 0)), duration: duration$, setDuration, diningTable: diningTable$, setDiningTable, tableQuery: tableQuery$, setTableQuery, resetAllState }}>
         {children}
     </HeaderContext.Provider>
 }

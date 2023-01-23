@@ -25,7 +25,7 @@ export type diningTableQuery = {
     byWindow?: boolean,
     outside?: boolean,
     smokingAllowed?: boolean
-} | undefined
+} | null
 
 export type bounds = {
     from: string,
@@ -117,3 +117,6 @@ export function toJavaDate(date: Date) {
     if (dateStr.length === 24) return dateStr.slice(0, 16)
     else return ""
 }
+
+export /* source: https://github.com/skotniczny/phonePL */
+const phonePL = String.raw`^(?:1[2-8]|2[2-69]|3[2-49]|4[1-8]|5[0-9]|6[0-35-9]|[7-8][1-9]|9[145])\d{7}$`

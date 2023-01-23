@@ -6,9 +6,7 @@ import OneLineForm from './components/OneLineForm';
 import ReservationList from './components/ReservationList';
 import { useHeaderContext } from './context/HeaderContext';
 import useFormState from './hooks/useFormState';
-
-/* source: https://github.com/skotniczny/phonePL */
-const phonePL = String.raw`^(?:1[2-8]|2[2-69]|3[2-49]|4[1-8]|5[0-9]|6[0-35-9]|[7-8][1-9]|9[145])\d{7}$`
+import { phonePL } from './types';
 
 export default function ReservationListing(): ReactElement {
 
@@ -60,7 +58,7 @@ export default function ReservationListing(): ReactElement {
         })
     }
 
-    if (headerContext.getPhoneNumber()[0] === 0) {
+    if (headerContext.phoneNumber[0] === 0) {
 
         return <main className="flex items-center justify-center align-middle h-full">
             <OneLineForm onSubmit={handlePhoneClick} value={Number.isNaN(pnValue) ? "" : pnValue} onChange={changePnValue} pattern={phonePL} ref={ref} placeholder="numer relefonu" buttonText="✔️" labelText="Nr telefonu z rezerwacji: " loading={loading} />

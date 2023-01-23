@@ -18,7 +18,7 @@ export default function Header(): ReactElement {
   const headerContext = useHeaderContext()
   const restaurantContext = useRestaurantsContext()
 
-  const restaurant = restaurantContext.getRestaurants()?.find(r => r.ID === headerContext.getRestaurantID())
+  const restaurant = restaurantContext.getRestaurants()?.find(r => r.ID === headerContext.restaurantID)
 
 
   return <div className="fixed top-0 w-full s_mid:h-44 h-32 shadow-md text-slate-800 dark:text-slate-200">
@@ -31,14 +31,27 @@ export default function Header(): ReactElement {
       {
         // nodes.map((node) => <Link to={node} className={link$tyle}>{node}</Link>)
       }
-      {(location.pathname === routing.list_reservations && headerContext.getPhoneNumber()[0] !== 0) &&
-        <p className={link$tyle}>Nr telefonu z rezerwacji: <b>{headerContext.getPhoneNumber()[1]}</b></p>
+      {(location.pathname === routing.list_reservations && headerContext.phoneNumber[0] !== 0) &&
+        <p className={link$tyle}>Nr telefonu z rezerwacji: <b>{headerContext.phoneNumber[1]}</b></p>
       }
       {(location.pathname === routing.create_reservation && restaurant) &&
-        <button type="button" className={`${link$tyle} ${outline$tyle}`} onClick={()=>headerContext.setRestaurantID(0)} >Restauracja "{restaurant.name}"</button>
+        <button type="button" className={`${link$tyle} ${outline$tyle}`} onClick={() => {
+          headerContext.setRestaurantID(0)
+          headerContext.setDate(null)
+          headerContext.setTime(null)
+          headerContext.setDiningTable(0)
+          headerContext.setTableQuery(() => null)
+          headerContext.setDuration(0)
+        }} >Restauracja "{restaurant.name}"</button>
       }
-      {(location.pathname === routing.create_reservation && headerContext.getDate() !== null) &&
-        <button type="button" className={`${link$tyle} ${outline$tyle}`} onClick={() => headerContext.setDate(null)} >{fullDateFormat.format(headerContext.getDate()!)}</button>
+      {(location.pathname === routing.create_reservation && headerContext.date !== null) &&
+        <button type="button" className={`${link$tyle} ${outline$tyle}`} onClick={() => {
+          headerContext.setDate(null)
+          headerContext.setTime(null)
+          headerContext.setDiningTable(0)
+          headerContext.setTableQuery(() => null)
+          headerContext.setDuration(0)
+        }} >{fullDateFormat.format(headerContext.date)}</button>
       }
     </nav>}
   </div>
